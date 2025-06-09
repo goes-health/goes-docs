@@ -1,0 +1,80 @@
+---
+title: 'Get Risks'
+openapi: 'GET /v1/risks'
+---
+
+This endpoint allows you to check for various outdoor-related health risks based on a specific location. You can check for all risks or specify particular ones.
+
+## Request
+
+### Query Parameters
+
+<ParamField query="api_key" type="string" required>
+  Your API key for authentication.
+</ParamField>
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField query="ids" type="string">
+  A comma-separated list of risk IDs to check. If you do not provide this, all risks will be checked.
+  The available `ids` are:
+  - `sunburn`
+  - `high-altitude`
+  - `heat-illness`
+  - `breathing-problems`
+  - `frostbite`
+  - `hypothermia`
+  - `lightning`
+</ParamField>
+
+## Response
+
+The response is a JSON object containing a `risks` array. Each object in the array represents a specific risk and includes an `id`, a `title`, and a list of `tips`.
+
+<ResponseField name="risks" type="array">
+  An array of risk objects.
+  <ResponseField name="id" type="string">
+    The unique identifier for the risk. Example: `heat-illness`.
+  </ResponseField>
+  <ResponseField name="title" type="string">
+    The human-readable title of the risk. Example: `Heat Illness`.
+  </ResponseField>
+  <ResponseField name="tips" type="array">
+    A collection of one-sentence strings with tips for outdoor adventurers.
+  </ResponseField>
+</ResponseField>
+
+## Example
+
+### Request
+
+```bash
+curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness&location=34.0522,-118.2437&api_key=YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "risks": [
+    {
+      "id": "sunburn",
+      "title": "Sunburn",
+      "tips": [
+        "Wear sunscreen with a high SPF.",
+        "Seek shade during peak sun hours."
+      ]
+    },
+    {
+      "id": "heat-illness",
+      "title": "Heat Illness",
+      "tips": [
+        "Stay hydrated by drinking plenty of water.",
+        "Avoid strenuous activity during the hottest part of the day."
+      ]
+    }
+  ]
+}
+``` 
