@@ -1,0 +1,100 @@
+---
+title: 'Get Wildlife'
+openapi: 'GET /v1/wildlife'
+---
+
+This endpoint allows you to check for wildlife-related health risks based on a specific location. You can check for all wildlife risks or specify particular ones.
+
+## Request
+
+### Query Parameters
+
+<ParamField query="api_key" type="string" required>
+  Your API key for authentication.
+</ParamField>
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField query="ids" type="string">
+  A comma-separated list of wildlife risk IDs to check. If you do not provide this, all risks will be checked.
+  The available `ids` are:
+  - `poison-sumac`
+  - `poison-oak`
+  - `poison-ivy`
+  - `bears`
+  - `venomous-snakes`
+  - `mosquitoes`
+  - `ticks`
+</ParamField>
+
+## Response
+
+The response is a JSON object containing a `responseId` and a `risks` array. Each object in the array represents a specific wildlife risk and includes an `id`, a `title`, a `score`, and a list of `tips`.
+
+<ResponseField name="responseId" type="string">
+  A unique identifier for this response. Use this ID if submitting feedback about the response.
+</ResponseField>
+
+<ResponseField name="risks" type="array">
+  An array of risk objects.
+  <ResponseField name="id" type="string">
+    The unique identifier for the risk. Example: `bears`.
+  </ResponseField>
+  <ResponseField name="title" type="string">
+    The human-readable title of the risk. Example: `Bears`.
+  </ResponseField>
+  <ResponseField name="score" type="number">
+    A number from 0-4 representing the prevalence of this wildlife in the area:
+    - 0: None
+    - 1: Low
+    - 2: Medium
+    - 3: High
+  </ResponseField>
+  <ResponseField name="tips" type="array">
+    A collection of one-sentence strings with tips for outdoor adventurers.
+  </ResponseField>
+</ResponseField>
+
+## Example
+
+### Request
+
+```bash
+curl "http://api.goes.health/v1/wildlife?ids=bears,venomous-snakes&location=34.0522,-118.2437&api_key=YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "risks": [
+    {
+      "id": "bears",
+      "title": "Bears",
+      "score": 2,
+      "tips": [
+        "When in bear country, travel in groups. Make noise while you hike, especially around corners or near running water to avoid surprising a bear.",
+        "If allowed where you're going, pack bear spray and learn how to use it properly. You can spray at a charging bear 20-30 feet away.",
+        "Look for signs of bear activity: fresh scat (poop), paw prints, ripped bark on trees, or berry bushes.",
+        "If you encounter a bear, do not run or appear like prey. Avoid eye contact and back away slowly while speaking in a loud, firm voice.",
+        "Store scented items (toiletries, food, clothes you cooked in) in airtight containers at least 100 ft from camp."
+      ]
+    },
+    {
+      "id": "venomous-snakes",
+      "title": "Venomous Snakes",
+      "score": 1,
+      "tips": [
+        "Snakes hang out under rocks and in long grasses. They're most active when it's warm and sunny out.",
+        "Snakes feel vibrations because they don't have ears that can hear. Stomp or shuffle your feet so snakes can feel you approaching.",
+        "If you're in rattlesnake territory, avoid wearing headphones so you can hear any warning rattles.",
+        "Not all venomous snakes are rattlesnakes. Learn which venomous snakes are in the area and how to identify them.",
+        "If bitten by a venomous snake, try to stay calm while you get to emergency medical care. Methods to slow or stop the venom will only make the bite worse."
+      ]
+    }
+  ]
+}
+``` 

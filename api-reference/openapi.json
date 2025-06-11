@@ -77,6 +77,155 @@
           }
         }
       }
+    },
+    "/v1/wildlife": {
+      "get": {
+        "description": "Returns a list of wildlife-related risks based on location and selected IDs.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "A comma-separated list of wildlife risk IDs.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of wildlife risks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
+                    "risks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WildlifeRisk"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/feedback": {
+      "post": {
+        "description": "Submit feedback about the accuracy of a risk assessment response based on local knowledge or observations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "responseId",
+                  "feedback"
+                ],
+                "properties": {
+                  "responseId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The UUID of the risk assessment response you're providing feedback about"
+                  },
+                  "feedback": {
+                    "type": "string",
+                    "description": "Your feedback about the accuracy of the risk assessment, including any local knowledge or observations that support your feedback",
+                    "example": "I am a local park ranger and can confirm there is no poison sumac in this area. The nearest occurrence is over 50 miles away in a different ecosystem."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Feedback submitted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Thank you for your feedback."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request - missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid responseId format"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -95,6 +244,35 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "WildlifeRisk": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the risk",
+            "example": "bears"
+          },
+          "title": {
+            "type": "string",
+            "description": "The human-readable title of the risk",
+            "example": "Bears"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High)",
+            "example": 2
+          },
+          "tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of safety tips related to this wildlife risk"
           }
         }
       },

@@ -33,6 +33,10 @@ This endpoint allows you to check for various outdoor-related health risks based
 
 The response is a JSON object containing a `risks` array. Each object in the array represents a specific risk and includes an `id`, a `title`, and a list of `tips`.
 
+<ResponseField name="responseId" type="string">
+  A unique identifier for this response. Use this ID if submitting feedback about the response.
+</ResponseField>
+
 <ResponseField name="risks" type="array">
   An array of risk objects.
   <ResponseField name="id" type="string">
@@ -58,23 +62,33 @@ curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness&location=34.0522,
 
 ```json
 {
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
   "risks": [
     {
       "id": "sunburn",
       "title": "Sunburn",
       "tips": [
-        "Wear sunscreen with a high SPF.",
-        "Seek shade during peak sun hours."
+        "Apply SPF 30+ sunscreen. Reapply every 2 hours (or more frequently depending on your personal history with sunburns or if you're sweating).",
+        "Your skin can burn in as little as 15 minutes, so it's important to protect your skin.",
+        "Stay covered: wear a hat, long sleeves, sunglasses, sunscreen, or SPF-treated clothes",
+        "Sunburns make it harder for your body to keep cool since you cannot sweat as effectively through burnt skin.",
+        "Sunlight can also be reflected off bright surfaces like water or snow to give you a sunburn.",
+        "Wear sunglasses. Your eyes can burn from reflected and direct light."
       ]
     },
     {
       "id": "heat-illness",
       "title": "Heat Illness",
       "tips": [
-        "Stay hydrated by drinking plenty of water.",
-        "Avoid strenuous activity during the hottest part of the day."
+        "Protecting your skin from the sun can help your body stay cool. Wear light and loose layers, a hat, sunglasses, and sunscreen.",
+        "Try to time your activity so that you take a break or find some shade during the hottest part of the day.",
+        "Pack enough water for your activity. Drink water before starting an activity so you start out hydrated. Drink when you are thirsty.",
+        "If you're drinking a lot of water, eat salty snacks to avoid low salt levels and overhydration.",
+        "High humidity prevents sweat from evaporating and makes it harder to cool down. You will feel hotter on more humid days.",
+        "Using a spray bottle to create a mist can help you feel cooler because of increased evaporative cooling.",
+        "If you're overheated, cool down by submerging in cold water or dousing your hands, cheeks, and clothes in cold water."
       ]
     }
   ]
 }
-``` 
+```

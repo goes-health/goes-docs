@@ -1,0 +1,56 @@
+---
+title: 'Submit Feedback'
+openapi: 'POST /v1/feedback'
+---
+
+This endpoint allows you to submit feedback about the accuracy of a risk assessment response. For example, if you know there are no poison sumac plants in an area where the API indicated a risk, or if you've observed bears in an area where the API showed no risk.
+
+## Request
+
+### Query Parameters
+
+<ParamField query="api_key" type="string" required>
+  Your API key for authentication.
+</ParamField>
+
+### Body
+
+<ParamField body="responseId" type="string" required>
+  The UUID of the risk assessment response you're providing feedback about. This is returned in the response of the `/v1/risks` or `/v1/wildlife` endpoints.
+</ParamField>
+
+<ParamField body="feedback" type="string" required>
+  Your feedback about the accuracy of the risk assessment. Explain what risks you believe were incorrectly assessed and why. Include any local knowledge or observations that support your feedback.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the feedback was successfully submitted.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  A confirmation message indicating the feedback was received.
+</ResponseField>
+
+## Example
+
+### Request
+
+```bash
+curl -X POST "http://api.goes.health/v1/feedback?api_key=YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "responseId": "123e4567-e89b-12d3-a456-426614174000",
+    "feedback": "I am a local park ranger and can confirm there is no poison sumac in this area. The nearest occurrence is over 50 miles away in a different ecosystem."
+  }'
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Thank you for your feedback."
+}
+``` 
