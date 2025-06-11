@@ -229,7 +229,7 @@
     },
     "/v1/overview": {
       "get": {
-        "description": "Returns a comprehensive overview of all health and wildlife risks for a given location, combining environmental risks, wildlife risks, and national weather alerts. It also provides a personalized AI-generated summary based on your activity and experience level.",
+        "description": "Returns a comprehensive overview of all risks for a given location with a personalized AI summary.",
         "parameters": [
           {
             "name": "api_key",

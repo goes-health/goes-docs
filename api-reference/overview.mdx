@@ -1,59 +1,6 @@
 ---
 title: 'Get Overview'
-api: 'GET /v1/overview'
-openapi-schema: {
-  "parameters": [
-    {
-      "name": "api_key",
-      "in": "query",
-      "required": true,
-      "type": "string",
-      "description": "Your API key for authentication"
-    },
-    {
-      "name": "location",
-      "in": "query",
-      "required": true,
-      "type": "string",
-      "description": "The latitude and longitude for the location to check, formatted as {latitude},{longitude}"
-    },
-    {
-      "name": "length",
-      "in": "query",
-      "required": false,
-      "type": "string",
-      "description": "Controls the length of the overview summary text (brief, standard, or detailed)"
-    },
-    {
-      "name": "activity",
-      "in": "query",
-      "required": false,
-      "type": "string",
-      "description": "The outdoor activity you plan to do (e.g., hiking, camping, skiing)"
-    },
-    {
-      "name": "age",
-      "in": "query",
-      "required": false,
-      "type": "integer",
-      "description": "The age of the person doing the activity"
-    },
-    {
-      "name": "outdoor_experience",
-      "in": "query",
-      "required": false,
-      "type": "integer",
-      "description": "Experience level with outdoor activities, from 0 (beginner) to 4 (expert)"
-    },
-    {
-      "name": "context",
-      "in": "query",
-      "required": false,
-      "type": "string",
-      "description": "Any additional context that may be relevant for risk assessment"
-    }
-  ]
-}
+openapi: 'GET /v1/overview'
 ---
 
 <Note type="warning">
@@ -152,20 +99,20 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
   </Expandable>
 </ResponseField>
 
-### Example
+## Example
 
-#### Request
+### Request
 
 ```bash
 curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detailed&activity=hiking&age=35&outdoor_experience=2&context=traveling+with+small+children&api_key=YOUR_API_KEY"
 ```
 
-#### Response
+### Response
 
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "overview": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin, and this is particularly relevant given the lack of natural shade on many trails. There's also a moderate heat illness risk with temperatures reaching 85°F, which could feel more intense for children who may not recognize early signs of heat exhaustion. Wildlife activity is relatively low, but be aware of possible rattlesnake encounters common in this area, especially during warmer afternoon hours - keep children on cleared paths and within sight. A severe thunderstorm warning is in effect until 5:00 PM, which could make hiking dangerous - consider postponing or having a clear shelter plan that's easily accessible for children. Given your intermediate outdoor experience (level 2), pay extra attention to the weather conditions and bring appropriate sun protection for the whole family. For this specific hike with children, we recommend starting early in the morning, choosing a shorter trail with frequent rest spots, and having a flexible return plan.",
+  "overview": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin, and this is particularly relevant given the lack of natural shade on many trails. There's also a moderate heat illness risk with temperatures reaching 85°F, which could feel more intense for children who may not recognize early signs of heat exhaustion.",
   "risks": [
     {
       "id": "sunburn",
