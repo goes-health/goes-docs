@@ -1,0 +1,30 @@
+---
+title: 'API Introduction'
+description: 'Introduction to the GOES Health API'
+---
+
+## Welcome to the GOES Health API
+
+The GOES Health API provides real-time information about outdoor health and wildlife risks based on location. Our API helps outdoor enthusiasts, applications, and services make informed decisions about outdoor activities by providing:
+
+- Health risk assessments (sunburn, heat illness, etc.)
+- Wildlife risk assessments with prevalence scores
+- Location-specific safety tips and precautions
+
+## Authentication
+
+All API endpoints are authenticated using Bearer tokens. You'll need to include your API key as a query parameter in all requests:
+
+```bash
+curl "http://api.goes.health/v1/risks?api_key=YOUR_API_KEY&location=34.0522,-118.2437"
+```
+
+## Available Endpoints
+
+The GOES Health API provides three main endpoints:
+
+- `/v1/risks` - Get outdoor health risks for a location
+- `/v1/wildlife` - Get wildlife risks and prevalence for a location
+- `/v1/feedback` - Submit feedback about risk assessments
+
+Each endpoint accepts a location parameter in the format of `latitude,longitude` and returns detailed information about risks in that area. 

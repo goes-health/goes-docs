@@ -14,12 +14,23 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Home",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "index"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Documentation",
         "groups": [
           {
             "group": "Get Started",
             "pages": [
-              "index",
+              "overview",
               "quickstart",
               "development"
             ]
@@ -41,13 +52,7 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Risks",
+            "group": "GOES API",
             "pages": [
               "api-reference/risks",
               "api-reference/wildlife",
