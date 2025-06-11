@@ -1,0 +1,203 @@
+---
+title: 'Get Overview'
+api: 'GET /v1/overview'
+openapi-schema: {
+  "parameters": [
+    {
+      "name": "api_key",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "Your API key for authentication"
+    },
+    {
+      "name": "location",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "description": "The latitude and longitude for the location to check, formatted as {latitude},{longitude}"
+    },
+    {
+      "name": "length",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "Controls the length of the overview summary text (brief, standard, or detailed)"
+    },
+    {
+      "name": "activity",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "The outdoor activity you plan to do (e.g., hiking, camping, skiing)"
+    },
+    {
+      "name": "age",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "description": "The age of the person doing the activity"
+    },
+    {
+      "name": "outdoor_experience",
+      "in": "query",
+      "required": false,
+      "type": "integer",
+      "description": "Experience level with outdoor activities, from 0 (beginner) to 4 (expert)"
+    },
+    {
+      "name": "context",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "description": "Any additional context that may be relevant for risk assessment"
+    }
+  ]
+}
+---
+
+<Note type="warning">
+  **Coming Soon** — This endpoint is under development and will be available at a future date.
+</Note>
+
+This endpoint provides a comprehensive overview of all risks and alerts for a location, combining environmental risks, wildlife risks, and national weather alerts. It also provides a personalized AI-generated summary based on your activity and experience level.
+
+## Request
+
+### Query Parameters
+
+<ParamField query="api_key" type="string" required>
+  Your API key for authentication.
+</ParamField>
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField query="length" type="string">
+  Controls the length of the overview summary text. Available options:
+  - `brief`: 1-2 sentences focusing on the most critical risks
+  - `standard`: 3-4 sentences with key risks and basic context (default)
+  - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+</ParamField>
+
+<ParamField query="activity" type="string">
+  The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the risk assessment.
+</ParamField>
+
+<ParamField query="age" type="integer">
+  The age of the person doing the activity. Used to provide age-appropriate risk assessments.
+</ParamField>
+
+<ParamField query="outdoor_experience" type="integer">
+  Experience level with outdoor activities, from 0 (beginner) to 4 (expert).
+</ParamField>
+
+<ParamField query="context" type="string">
+  Any additional context that may be relevant for risk assessment (e.g., "traveling with small children", "recovering from knee injury", "training for marathon"). This helps provide more personalized recommendations.
+</ParamField>
+
+## Response
+
+<ResponseField name="responseId" type="string">
+  A unique identifier for this response. Use this ID if submitting feedback about the response.
+</ResponseField>
+
+<ResponseField name="overview" type="string">
+  An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level.
+</ResponseField>
+
+<ResponseField name="risks" type="array">
+  A comprehensive array of all risks from environmental and wildlife sources.
+  <Expandable title="Risk Object Properties">
+    <ResponseField name="id" type="string">
+      The unique identifier for the risk.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      The human-readable title of the risk.
+    </ResponseField>
+    <ResponseField name="source" type="string">
+      The source of this risk ("environment" or "wildlife").
+    </ResponseField>
+    <ResponseField name="severity" type="integer">
+      Risk severity from 0 (low) to 4 (extreme).
+    </ResponseField>
+    <ResponseField name="tips" type="array">
+      A collection of one-sentence strings with tips for outdoor adventurers.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="alerts" type="array">
+  An array of active NOAA weather alerts for the United States.
+  <Expandable title="Alert Object Properties">
+    <ResponseField name="event" type="string">
+      The type of weather event. Example: `Severe Thunderstorm Warning`.
+    </ResponseField>
+    <ResponseField name="severity" type="string">
+      The severity level of the alert as specified by NOAA. Example: `Severe`.
+    </ResponseField>
+    <ResponseField name="senderName" type="string">
+      The NWS office that issued the alert. Example: `NWS Riverton WY`.
+    </ResponseField>
+    <ResponseField name="headline" type="string">
+      A complete headline of the alert including timing and issuing office.
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Detailed description of the weather event, including specific hazards, source of information, and impacts.
+    </ResponseField>
+    <ResponseField name="instruction" type="string">
+      Safety instructions and recommended actions for the public.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example
+
+#### Request
+
+```bash
+curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detailed&activity=hiking&age=35&outdoor_experience=2&context=traveling+with+small+children&api_key=YOUR_API_KEY"
+```
+
+#### Response
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "overview": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin, and this is particularly relevant given the lack of natural shade on many trails. There's also a moderate heat illness risk with temperatures reaching 85°F, which could feel more intense for children who may not recognize early signs of heat exhaustion. Wildlife activity is relatively low, but be aware of possible rattlesnake encounters common in this area, especially during warmer afternoon hours - keep children on cleared paths and within sight. A severe thunderstorm warning is in effect until 5:00 PM, which could make hiking dangerous - consider postponing or having a clear shelter plan that's easily accessible for children. Given your intermediate outdoor experience (level 2), pay extra attention to the weather conditions and bring appropriate sun protection for the whole family. For this specific hike with children, we recommend starting early in the morning, choosing a shorter trail with frequent rest spots, and having a flexible return plan.",
+  "risks": [
+    {
+      "id": "sunburn",
+      "title": "Sunburn",
+      "source": "environment",
+      "severity": 3,
+      "tips": [
+        "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
+        "Wear a wide-brimmed hat and UV-protective clothing.",
+        "Try to avoid peak UV hours between 10 AM and 4 PM."
+      ]
+    },
+    {
+      "id": "rattlesnake",
+      "title": "Rattlesnake Activity",
+      "source": "wildlife",
+      "severity": 2,
+      "tips": [
+        "Stay on clear paths and avoid tall grass areas.",
+        "Listen for warning rattles and watch where you step.",
+        "Keep at least 6 feet distance if you encounter a snake."
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "event": "Severe Thunderstorm Warning",
+      "severity": "Severe",
+      "senderName": "NWS Los Angeles CA",
+      "headline": "Severe Thunderstorm Warning issued August 15 at 2:30PM PDT until August 15 at 5:00PM PDT by NWS Los Angeles CA",
+      "description": "At 2:30 PM PDT, a severe thunderstorm was located over the Santa Monica Mountains, moving east at 25 mph. HAZARD...60 mph wind gusts and penny size hail. SOURCE...Radar indicated.",
+      "instruction": "For your protection move to an interior room on the lowest floor of a building. Torrential rainfall is occurring with this storm, and may lead to flash flooding. Do not drive your vehicle through flooded roadways."
+    }
+  ]
+} 

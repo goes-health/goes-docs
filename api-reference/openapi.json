@@ -16,7 +16,7 @@
   "paths": {
     "/v1/risks": {
       "get": {
-        "description": "Returns a list of health risks based on location and selected IDs.",
+        "description": "Returns a list of environmental health risks based on location and selected IDs.",
         "parameters": [
           {
             "name": "api_key",
@@ -220,6 +220,237 @@
                       "example": "Invalid responseId format"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/overview": {
+      "get": {
+        "description": "Returns a comprehensive overview of all health and wildlife risks for a given location, combining environmental risks, wildlife risks, and national weather alerts. It also provides a personalized AI-generated summary based on your activity and experience level.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "your_api_key_here"
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "37.7749,-122.4194"
+          },
+          {
+            "name": "length",
+            "in": "query",
+            "description": "Controls the length of the overview summary text.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "brief",
+                "standard",
+                "detailed"
+              ],
+              "default": "standard"
+            },
+            "example": "detailed"
+          },
+          {
+            "name": "activity",
+            "in": "query",
+            "description": "The outdoor activity you plan to do (e.g., 'hiking', 'camping', 'skiing'). This helps personalize the risk assessment.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "hiking"
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "description": "The age of the person doing the activity. Used to provide age-appropriate risk assessments.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 35
+          },
+          {
+            "name": "outdoor_experience",
+            "in": "query",
+            "description": "Experience level with outdoor activities, from 0 (beginner) to 4 (expert).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "example": 2
+          },
+          {
+            "name": "context",
+            "in": "query",
+            "description": "Any additional context that may be relevant for risk assessment (e.g., 'traveling with small children', 'recovering from knee injury').",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "traveling with small children"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A comprehensive overview of all risks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "responseId",
+                    "overview",
+                    "risks"
+                  ],
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response",
+                      "example": "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+                    },
+                    "overview": {
+                      "type": "string",
+                      "description": "An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level",
+                      "example": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin..."
+                    },
+                    "risks": {
+                      "type": "array",
+                      "description": "A comprehensive array of all risks from environmental and wildlife sources",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "title",
+                          "source",
+                          "severity",
+                          "tips"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier for the risk",
+                            "example": "sunburn"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "The human-readable title of the risk",
+                            "example": "Sunburn"
+                          },
+                          "source": {
+                            "type": "string",
+                            "enum": [
+                              "environment",
+                              "wildlife"
+                            ],
+                            "description": "The source of this risk",
+                            "example": "environment"
+                          },
+                          "severity": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 4,
+                            "description": "Risk severity from 0 (low) to 4 (extreme)",
+                            "example": 3
+                          },
+                          "tips": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "A collection of one-sentence strings with tips for outdoor adventurers",
+                            "example": [
+                              "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
+                              "Wear a wide-brimmed hat and UV-protective clothing.",
+                              "Try to avoid peak UV hours between 10 AM and 4 PM."
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "alerts": {
+                      "type": "array",
+                      "description": "An array of active NOAA weather alerts for the United States",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "event",
+                          "severity",
+                          "senderName",
+                          "headline",
+                          "description",
+                          "instruction"
+                        ],
+                        "properties": {
+                          "event": {
+                            "type": "string",
+                            "description": "The type of weather event",
+                            "example": "Severe Thunderstorm Warning"
+                          },
+                          "severity": {
+                            "type": "string",
+                            "description": "The severity level of the alert as specified by NOAA",
+                            "example": "Severe"
+                          },
+                          "senderName": {
+                            "type": "string",
+                            "description": "The NWS office that issued the alert",
+                            "example": "NWS Los Angeles CA"
+                          },
+                          "headline": {
+                            "type": "string",
+                            "description": "A complete headline of the alert including timing and issuing office",
+                            "example": "Severe Thunderstorm Warning issued August 15 at 2:30PM PDT until August 15 at 5:00PM PDT by NWS Los Angeles CA"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Detailed description of the weather event, including specific hazards, source of information, and impacts",
+                            "example": "At 2:30 PM PDT, a severe thunderstorm was located over the Santa Monica Mountains, moving east at 25 mph. HAZARD...60 mph wind gusts and penny size hail. SOURCE...Radar indicated."
+                          },
+                          "instruction": {
+                            "type": "string",
+                            "description": "Safety instructions and recommended actions for the public",
+                            "example": "For your protection move to an interior room on the lowest floor of a building. Torrential rainfall is occurring with this storm, and may lead to flash flooding."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": 400,
+                  "message": "Invalid location format"
                 }
               }
             }
