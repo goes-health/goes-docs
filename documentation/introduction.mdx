@@ -131,6 +131,7 @@ Our API provides three core endpoints to access outdoor risk intelligence:
 
 <CardGroup cols={1}>
   <Card title="Environmental Risks">
+  Use when only environment risks (e.x. Heat Illness, Breathing Problems) are needed.
     ```bash
     GET /v1/risks
     ```
@@ -138,6 +139,7 @@ Our API provides three core endpoints to access outdoor risk intelligence:
   </Card>
 
   <Card title="Wildlife Risks">
+  Use when only wildlife risks (e.x. Bears, Poison Ivy) are needed.
     ```bash
     GET /v1/wildlife
     ```
@@ -145,6 +147,7 @@ Our API provides three core endpoints to access outdoor risk intelligence:
   </Card>
 
   <Card title="Overview & Summary">
+    Use for a complete understanding of risks. Includes all previous endpoint data and more. 
     ```bash
     GET /v1/overview
     ```
