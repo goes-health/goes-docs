@@ -129,29 +129,41 @@ Our API monitors a comprehensive set of outdoor health risks across multiple cat
 
 Our API provides three core endpoints to access outdoor risk intelligence:
 
-<CardGroup cols={1}>
+<CardGroup cols={3}>
   <Card title="Environmental Risks">
-  Use when only environment risks (e.x. Heat Illness, Breathing Problems) are needed.
-    ```bash
-    GET /v1/risks
-    ```
-    Retrieve real-time environmental health risks for any latitude/longitude. Pass `location=LAT,LON` & `api_key=KEY` (optional `ids` to filter). The response returns an array of risks with `id`, `title`, and actionable safety tips.
+    Use when only environment risks (e.g. Heat Illness, Breathing Problems) and tips are needed.
+
+    <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
+      GET /v1/risks
+    </code>
+
+    <a href="/api-reference/risks" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
+      View endpoint →
+    </a>
   </Card>
 
   <Card title="Wildlife Risks">
-  Use when only wildlife risks (e.x. Bears, Poison Ivy) are needed.
-    ```bash
-    GET /v1/wildlife
-    ```
-    Retrieve wildlife-related risks for the specified coordinate. Required `api_key` and `location`; optional `ids` to filter. Response contains a `responseId` plus an array of wildlife risks where each item includes `id`, `title`, prevalence `score` (0–3), and safety tips.
+    Use when only wildlife risks (e.g. Bears, Poison Ivy) and tips are needed.
+
+    <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
+      GET /v1/wildlife
+    </code>
+
+    <a href="/api-reference/wildlife" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
+      View endpoint →
+    </a>
   </Card>
 
   <Card title="Overview & Summary">
-    Use for a complete understanding of risks. Includes all previous endpoint data and more. 
-    ```bash
-    GET /v1/overview
-    ```
-    Generate an AI-curated overview that combines environmental risks, wildlife risks, and active NOAA alerts. Personalize using `length`, `activity`, `age`, `outdoor_experience`, `context`, and `exclude` query parameters. The response returns a `responseId`, human-readable summary, detailed risks (with `severity` 0–4), and any active alerts.
+    Use for a complete understanding of risks and recommendations. Includes all previous endpoint data and more.
+
+    <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
+      GET /v1/overview
+    </code>
+
+    <a href="/api-reference/overview" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
+      View endpoint →
+    </a>
   </Card>
 </CardGroup>
 
