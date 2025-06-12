@@ -125,6 +125,33 @@ Our API monitors a comprehensive set of outdoor health risks across multiple cat
   </Card>
 </CardGroup>
 
+## API Endpoints
+
+Our API provides three core endpoints to access outdoor risk intelligence:
+
+<CardGroup cols={1}>
+  <Card title="Environmental Risks">
+    ```bash
+    GET /v1/risks
+    ```
+    Retrieve real-time environmental health risks for any latitude/longitude. Pass `location=LAT,LON` & `api_key=KEY` (optional `ids` to filter). The response returns an array of risks with `id`, `title`, and actionable safety tips.
+  </Card>
+
+  <Card title="Wildlife Risks">
+    ```bash
+    GET /v1/wildlife
+    ```
+    Retrieve wildlife-related risks for the specified coordinate. Required `api_key` and `location`; optional `ids` to filter. Response contains a `responseId` plus an array of wildlife risks where each item includes `id`, `title`, prevalence `score` (0–3), and safety tips.
+  </Card>
+
+  <Card title="Overview & Summary">
+    ```bash
+    GET /v1/overview
+    ```
+    Generate an AI-curated overview that combines environmental risks, wildlife risks, and active NOAA alerts. Personalize using `length`, `activity`, `age`, `outdoor_experience`, `context`, and `exclude` query parameters. The response returns a `responseId`, human-readable summary, detailed risks (with `severity` 0–4), and any active alerts.
+  </Card>
+</CardGroup>
+
 ## Authentication
 
 All API requests require an API key as a query parameter:
