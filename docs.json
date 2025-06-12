@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "GOES API",
   "colors": {
     "primary": "#2E2E2E",
     "dark": "#E7C136",
@@ -30,20 +30,9 @@
           {
             "group": "Get Started",
             "pages": [
-              "overview",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "documentation/overview",
+              "documentation/introduction",
+              "documentation/quickstart"
             ]
           }
         ]

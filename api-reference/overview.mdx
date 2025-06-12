@@ -44,13 +44,21 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
   Any additional context that may be relevant for risk assessment (e.g., "traveling with small children", "recovering from knee injury", "training for marathon"). This helps provide more personalized recommendations.
 </ParamField>
 
+<ParamField query="exclude" type="string">
+  A comma-separated list of sections to exclude from the response. Available options:
+  - `alerts`: Excludes weather alerts
+  - `environment`: Excludes environmental risks
+  - `wildlife`: Excludes wildlife risks
+  - `summary`: Excludes the AI-generated summary
+</ParamField>
+
 ## Response
 
 <ResponseField name="responseId" type="string">
   A unique identifier for this response. Use this ID if submitting feedback about the response.
 </ResponseField>
 
-<ResponseField name="overview" type="string">
+<ResponseField name="summary" type="string">
   An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level.
 </ResponseField>
 
@@ -104,7 +112,7 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detailed&activity=hiking&age=35&outdoor_experience=2&context=traveling+with+small+children&api_key=YOUR_API_KEY"
+curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detailed&activity=hiking&age=35&outdoor_experience=2&context=traveling+with+small+children&exclude=alerts,wildlife&api_key=YOUR_API_KEY"
 ```
 
 ### Response
@@ -112,7 +120,7 @@ curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detai
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "overview": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin, and this is particularly relevant given the lack of natural shade on many trails. There's also a moderate heat illness risk with temperatures reaching 85°F, which could feel more intense for children who may not recognize early signs of heat exhaustion.",
+  "summary": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin, and this is particularly relevant given the lack of natural shade on many trails. There's also a moderate heat illness risk with temperatures reaching 85°F, which could feel more intense for children who may not recognize early signs of heat exhaustion.",
   "risks": [
     {
       "id": "sunburn",
@@ -124,27 +132,6 @@ curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detai
         "Wear a wide-brimmed hat and UV-protective clothing.",
         "Try to avoid peak UV hours between 10 AM and 4 PM."
       ]
-    },
-    {
-      "id": "rattlesnake",
-      "title": "Rattlesnake Activity",
-      "source": "wildlife",
-      "severity": 2,
-      "tips": [
-        "Stay on clear paths and avoid tall grass areas.",
-        "Listen for warning rattles and watch where you step.",
-        "Keep at least 6 feet distance if you encounter a snake."
-      ]
-    }
-  ],
-  "alerts": [
-    {
-      "event": "Severe Thunderstorm Warning",
-      "severity": "Severe",
-      "senderName": "NWS Los Angeles CA",
-      "headline": "Severe Thunderstorm Warning issued August 15 at 2:30PM PDT until August 15 at 5:00PM PDT by NWS Los Angeles CA",
-      "description": "At 2:30 PM PDT, a severe thunderstorm was located over the Santa Monica Mountains, moving east at 25 mph. HAZARD...60 mph wind gusts and penny size hail. SOURCE...Radar indicated.",
-      "instruction": "For your protection move to an interior room on the lowest floor of a building. Torrential rainfall is occurring with this storm, and may lead to flash flooding. Do not drive your vehicle through flooded roadways."
     }
   ]
-} 
+}

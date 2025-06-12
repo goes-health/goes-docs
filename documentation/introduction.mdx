@@ -1,0 +1,70 @@
+---
+title: 'API Introduction'
+description: 'Introduction to the GOES Health API'
+---
+
+## Overview
+
+The GOES Health API enables real-time access to location-based outdoor safety data. Built for developers, our API provides comprehensive risk assessments for outdoor activities through simple REST endpoints.
+
+## Core Capabilities
+
+### Environmental Risk Assessment
+```json
+GET /v1/risks
+```
+- Real-time health risk data including UV exposure, altitude effects, and temperature-related concerns
+- Location-specific safety recommendations
+- Severity scoring for each risk factor
+
+### Wildlife Information
+```json
+GET /v1/wildlife
+```
+- Local wildlife presence and activity levels
+- Species-specific safety guidelines
+- Prevalence scoring from 0 (none) to 3 (high)
+
+### Smart Risk Overview
+```json
+GET /v1/overview
+```
+- AI-powered risk summaries
+- Activity-specific recommendations
+- Customizable detail levels (brief/standard/detailed)
+- Weather alert integration
+
+## Authentication
+
+All API requests require an API key as a query parameter:
+
+```bash
+curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=YOUR_API_KEY"
+```
+
+[Request an API key here](mailto:api@goes.health?subject=API%20Key%20Request)
+
+## Response Format
+
+All endpoints return JSON and include a unique `responseId` for feedback or support inquiries:
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "risks": [
+    {
+      "id": "sunburn",
+      "title": "Sunburn",
+      "severity": 3,
+      "tips": [...]
+    }
+  ]
+}
+```
+
+## Rate Limits
+
+- 600 requests per minute by default
+- Contact us for higher volume needs
+
+Ready to start? Check out our [Quickstart Guide](/documentation/quickstart) or dive into the [API Reference](/api-reference/risks). 

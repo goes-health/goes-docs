@@ -1,0 +1,102 @@
+---
+title: 'Quickstart'
+description: 'Make your first GOES Health API request in minutes'
+---
+
+## Setup
+
+1. Request an API key [here](mailto:api@goes.health?subject=API%20Key%20Request)
+2. Store your API key securely
+
+## Your First Request
+
+The GOES Health API uses REST endpoints with JSON responses. Let's check the environmental risks at Half Dome in Yosemite:
+
+<CodeGroup>
+```bash cURL
+curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=YOUR_API_KEY"
+```
+
+```js Node.js
+// Using environment variables for API key
+const GOES_API_KEY = process.env.GOES_API_KEY;
+
+async function checkRisks() {
+  const response = await fetch(
+    `https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=${GOES_API_KEY}`
+  );
+  
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  console.log(data.risks);
+}
+```
+
+```python Python
+import os
+import requests
+from typing import Dict, List
+
+def check_risks() -> Dict:
+    response = requests.get(
+        "https://api.goes.health/v1/risks",
+        params={
+            "location": "37.7325,-119.5581",
+            "api_key": os.environ["GOES_API_KEY"],
+        },
+        timeout=10,
+    )
+    response.raise_for_status()
+    return response.json()
+```
+</CodeGroup>
+
+## Understanding Responses
+
+All responses include a `responseId` for tracking and an array of `risks`:
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "risks": [
+    {
+      "id": "sunburn",
+      "title": "Sunburn",
+      "severity": 3,
+      "tips": [
+        "Apply SPF 30+ sunscreen. Reapply every 2 hours (or more frequently depending on your personal history with sunburns or if you're sweating).",
+        "Your skin can burn in as little as 15 minutes, so it's important to protect your skin.",
+        "Stay covered: wear a hat, long sleeves, sunglasses, sunscreen, or SPF-treated clothes"
+      ]
+    }
+  ]
+}
+```
+
+## Error Handling
+
+The API uses standard HTTP status codes:
+
+```javascript
+const handleApiError = (status) => {
+  switch (status) {
+    case 400: return 'Invalid parameters';
+    case 401: return 'Invalid API key';
+    case 429: return 'Rate limit exceeded';
+    default: return 'Unexpected error';
+  }
+};
+```
+
+## Next Steps
+
+- Explore the full **[API Reference](/api-reference/risks)** for optional parameters
+- Add wildlife data with the **/v1/wildlife** endpoint
+- Implement smart overviews with **/v1/overview**
+
+<Callout icon="lightbulb" color="yellow">
+Need help or have questions? Email us at <a href="mailto:api@goes.health?subject=API%20Support">api@goes.health</a>.
+</Callout>

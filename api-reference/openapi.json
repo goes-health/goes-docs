@@ -309,6 +309,16 @@
               "type": "string"
             },
             "example": "traveling with small children"
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "A comma-separated list of sections to exclude from the response. Available options: alerts, environment, wildlife, summary",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "alerts,wildlife"
           }
         ],
         "responses": {
@@ -320,7 +330,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
-                    "overview",
+                    "summary",
                     "risks"
                   ],
                   "properties": {
@@ -330,7 +340,7 @@
                       "description": "A unique identifier for this response",
                       "example": "3c90c3cc-0d44-4b50-8888-8dd25736052a"
                     },
-                    "overview": {
+                    "summary": {
                       "type": "string",
                       "description": "An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level",
                       "example": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin..."
