@@ -5,34 +5,125 @@ description: 'Introduction to the GOES Health API'
 
 ## Overview
 
-The GOES Health API enables real-time access to location-based outdoor safety data. Built for developers, our API provides comprehensive risk assessments for outdoor activities through simple REST endpoints.
+The GOES Health API is a REST-first service that delivers outdoor risk intelligence as easy-to-consume JSON. Each endpoint is:
 
-## Core Capabilities
+- Location-aware: latitude/longitude in every request
+- Real-time: continuously updated location risks for time-sensitive decisions
+- Developer-friendly: predictable query parameters and standard HTTP status codes
+- Mobile-ready: lightweight responses designed for low-latency cell networks
 
-### Environmental Risk Assessment
-```json
-GET /v1/risks
-```
-- Real-time health risk data including UV exposure, altitude effects, and temperature-related concerns
-- Location-specific safety recommendations
-- Severity scoring for each risk factor
+Whether you are displaying a compact widget or powering a full-featured trip-planning assistant, the API lets you select exactly the data you need and nothing more.
 
-### Wildlife Information
-```json
-GET /v1/wildlife
-```
-- Local wildlife presence and activity levels
-- Species-specific safety guidelines
-- Prevalence scoring from 0 (none) to 3 (high)
+## Tracked Risks
 
-### Smart Risk Overview
-```json
-GET /v1/overview
-```
-- AI-powered risk summaries
-- Activity-specific recommendations
-- Customizable detail levels (brief/standard/detailed)
-- Weather alert integration
+Our API monitors a comprehensive set of outdoor health risks across multiple categories:
+
+<CardGroup cols={2}>
+  <Card title="Weather & Climate" icon="cloud-sun">
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-red-500"/>
+        <div>Sunburn</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-yellow-500"/>
+        <div>Heat Illness</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-blue-500"/>
+        <div>Hypothermia</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-blue-300"/>
+        <div>Frostbite</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-purple-500"/>
+        <div>Lightning</div>
+      </div>
+    </div>
+  </Card>
+
+  <Card title="Terrain & Air Quality" icon="mountain">
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-indigo-500"/>
+        <div>High Altitude Illness</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-cyan-500"/>
+        <div>Breathing Problems</div>
+      </div>
+    </div>
+  </Card>
+
+  <Card title="Flora Hazards" icon="leaf">
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-green-600"/>
+        <div>Poison Ivy</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-green-500"/>
+        <div>Poison Oak</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-green-400"/>
+        <div>Poison Sumac</div>
+      </div>
+    </div>
+  </Card>
+
+  <Card title="Wildlife & Insects" icon="paw">
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-amber-700"/>
+        <div>Bears</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-orange-500"/>
+        <div>Venomous Snakes</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-gray-500"/>
+        <div>Mosquitoes</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-amber-800"/>
+        <div>Ticks</div>
+      </div>
+    </div>
+  </Card>
+
+  <Card title="National Alerts" icon="triangle-exclamation">
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-red-600"/>
+        <div>Severe Weather</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-orange-600"/>
+        <div>Fire & Heat</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-blue-600"/>
+        <div>Winter & Ice</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-purple-600"/>
+        <div>Coastal & Flood</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-slate-600"/>
+        <div>Air & Visibility</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-rose-600"/>
+        <div>Emergency</div>
+      </div>
+    </div>
+  </Card>
+</CardGroup>
 
 ## Authentication
 
@@ -44,27 +135,9 @@ curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=YOUR_A
 
 [Request an API key here](mailto:api@goes.health?subject=API%20Key%20Request)
 
-## Response Format
-
-All endpoints return JSON and include a unique `responseId` for feedback or support inquiries:
-
-```json
-{
-  "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "risks": [
-    {
-      "id": "sunburn",
-      "title": "Sunburn",
-      "severity": 3,
-      "tips": [...]
-    }
-  ]
-}
-```
-
 ## Rate Limits
 
 - 600 requests per minute by default
 - Contact us for higher volume needs
 
-Ready to start? Check out our [Quickstart Guide](/documentation/quickstart) or dive into the [API Reference](/api-reference/risks). 
+Ready to start? Check out our [Quickstart Guide](/documentation/quickstart) or dive into the [API Reference](/api-reference/risks).

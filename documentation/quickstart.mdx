@@ -10,7 +10,7 @@ description: 'Make your first GOES Health API request in minutes'
 
 ## Basic Request
 
-The GOES Health API uses REST endpoints with JSON responses. Let's check the environmental risks at Half Dome in Yosemite:
+The GOES Health API uses REST endpoints with JSON responses. Let's check for all current environmental risks at Half Dome in Yosemite:
 
 <CodeGroup>
 ```bash cURL
@@ -118,12 +118,98 @@ All responses include an array of `risks`:
       "tips": [
         ...
       ]
+    }, 
+    {
+      "id": "heat-illness",
+      "title": "Heat Illness",
+      "tips": [
+        ...
+      ]
     }
   ]
 }
 ```
 
+## Precise Request
 
+Request specific risks by passing their IDs. Available risk IDs: `sunburn`, `high-altitude`, `heat-illness`, `breathing-problems`, `frostbite`, `hypothermia`, `lightning`.
+
+<CodeGroup>
+```bash cURL
+curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581&ids=sunburn,high-altitude&api_key=YOUR_API_KEY"
+```
+
+```jsx React
+function RiskCheck() {
+  const [risks, setRisks] = useState([]);
+  
+  useEffect(() => {
+    fetch(`https://api.goes.health/v1/risks?location=37.7325,-119.5581&ids=sunburn,high-altitude&api_key=${process.env.REACT_APP_GOES_API_KEY}`)
+      .then(res => res.json())
+      .then(data => setRisks(data.risks));
+  }, []);
+
+  return <div>{risks.map(risk => <div key={risk.id}>{risk.title}</div>)}</div>;
+}
+```
+
+```python Python
+def check_specific_risks():
+    response = requests.get(
+        "https://api.goes.health/v1/risks",
+        params={
+            "location": "37.7325,-119.5581",
+            "ids": "sunburn,high-altitude",
+            "api_key": os.environ["GOES_API_KEY"],
+        },
+    )
+    return response.json()
+```
+</CodeGroup>
+
+This behavior is supported by the [/wildlife](/api-reference/wildlife) endpoint as well. 
+
+## Complete Request
+
+Get a comprehensive overview including all risks `sunburn`, `high-altitude`, `heat-illness`, `breathing-problems`, `frostbite`, `hypothermia`, `lightning`, `poison-sumac`, `poison-oak`, `poison-ivy`, `bears`, `venomous-snakes`, `mosquitoes`, `ticks`, national alerts, and a personalized AI summary.
+
+<CodeGroup>
+```bash cURL
+curl "https://api.goes.health/v1/overview?location=37.7325,-119.5581&activity=hiking&api_key=YOUR_API_KEY"
+```
+
+```jsx React
+function CompleteOverview() {
+  const [data, setData] = useState({});
+  
+  useEffect(() => {
+    fetch(`https://api.goes.health/v1/overview?location=37.7325,-119.5581&activity=hiking&api_key=${process.env.REACT_APP_GOES_API_KEY}`)
+      .then(res => res.json())
+      .then(setData);
+  }, []);
+
+  return (
+    <div>
+      <p>{data.summary}</p>
+      {data.risks?.map(risk => <div key={risk.id}>{risk.title}</div>)}
+    </div>
+  );
+}
+```
+
+```python Python
+def get_complete_overview():
+    response = requests.get(
+        "https://api.goes.health/v1/overview",
+        params={
+            "location": "37.7325,-119.5581",
+            "activity": "hiking",
+            "api_key": os.environ["GOES_API_KEY"],
+        },
+    )
+    return response.json()
+```
+</CodeGroup>
 
 ## Next Steps
 
