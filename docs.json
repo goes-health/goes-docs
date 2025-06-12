@@ -74,12 +74,7 @@
         "label": "Support",
         "href": "mailto:api@goes.health"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+    ]
   },
   "footer": {
     "socials": {
