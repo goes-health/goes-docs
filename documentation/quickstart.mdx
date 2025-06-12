@@ -8,7 +8,7 @@ description: 'Make your first GOES Health API request in minutes'
 1. Request an API key [here](mailto:api@goes.health?subject=API%20Key%20Request)
 2. Store your API key securely
 
-## Your First Request
+## Basic Request
 
 The GOES Health API uses REST endpoints with JSON responses. Let's check the environmental risks at Half Dome in Yosemite:
 
@@ -17,8 +17,60 @@ The GOES Health API uses REST endpoints with JSON responses. Let's check the env
 curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=YOUR_API_KEY"
 ```
 
+```jsx React
+import { useEffect, useState } from 'react';
+
+function RiskCheck() {
+  const [risks, setRisks] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=${process.env.REACT_APP_GOES_API_KEY}`)
+      .then(res => res.json())
+      .then(data => setRisks(data.risks));
+  }, []);
+
+  return (
+    <div>
+      {risks.map(risk => (
+        <div key={risk.id}>
+          <h3>{risk.title}</h3>
+          <p>Severity: {risk.severity}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+```jsx React Native
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList } from 'react-native';
+
+function RiskCheck() {
+  const [risks, setRisks] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=${process.env.GOES_API_KEY}`)
+      .then(res => res.json())
+      .then(data => setRisks(data.risks));
+  }, []);
+
+  return (
+    <FlatList
+      data={risks}
+      keyExtractor={item => item.id}
+      renderItem={({ item }) => (
+        <View style={{ padding: 10 }}>
+          <Text>{item.title}</Text>
+          <Text>Severity: {item.severity}</Text>
+        </View>
+      )}
+    />
+  );
+}
+```
+
 ```js Node.js
-// Using environment variables for API key
 const GOES_API_KEY = process.env.GOES_API_KEY;
 
 async function checkRisks() {
@@ -54,9 +106,7 @@ def check_risks() -> Dict:
 ```
 </CodeGroup>
 
-## Understanding Responses
-
-All responses include a `responseId` for tracking and an array of `risks`:
+All responses include an array of `risks`:
 
 ```json
 {
@@ -65,31 +115,15 @@ All responses include a `responseId` for tracking and an array of `risks`:
     {
       "id": "sunburn",
       "title": "Sunburn",
-      "severity": 3,
       "tips": [
-        "Apply SPF 30+ sunscreen. Reapply every 2 hours (or more frequently depending on your personal history with sunburns or if you're sweating).",
-        "Your skin can burn in as little as 15 minutes, so it's important to protect your skin.",
-        "Stay covered: wear a hat, long sleeves, sunglasses, sunscreen, or SPF-treated clothes"
+        ...
       ]
     }
   ]
 }
 ```
 
-## Error Handling
 
-The API uses standard HTTP status codes:
-
-```javascript
-const handleApiError = (status) => {
-  switch (status) {
-    case 400: return 'Invalid parameters';
-    case 401: return 'Invalid API key';
-    case 429: return 'Rate limit exceeded';
-    default: return 'Unexpected error';
-  }
-};
-```
 
 ## Next Steps
 
