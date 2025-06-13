@@ -3,7 +3,7 @@ title: 'Get Risks'
 openapi: 'GET /v1/risks'
 ---
 
-This endpoint allows you to check for various outdoor-related health risks based on a specific location. You can check for all risks or specify particular ones.
+This endpoint allows you to check for various outdoor health risks based on a specific location. You can check for all environmental risks or specify particular ones.
 
 ## Request
 
@@ -39,16 +39,17 @@ The response is a JSON object containing a `risks` array. Each object in the arr
 
 <ResponseField name="risks" type="array">
   An array of risk objects.
-  <ResponseField name="id" type="string">
-    The unique identifier for the risk. Example: `heat-illness`.
-  </ResponseField>
-  <ResponseField name="title" type="string">
-    The human-readable title of the risk. Example: `Heat Illness`.
-  </ResponseField>
-  <ResponseField name="tips" type="array">
-    A collection of one-sentence strings with tips for outdoor adventurers.
-  </ResponseField>
 </ResponseField>
+<ResponseField name="id" type="string">
+  The unique identifier for the risk. Example: `heat-illness`.
+</ResponseField>
+<ResponseField name="title" type="string">
+  The human-readable title of the risk. Example: `Heat Illness`.
+</ResponseField>
+<ResponseField name="tips" type="array">
+  A collection of 1-2 sentence strings with tips and recommendations.
+</ResponseField>
+
 
 ## Example
 

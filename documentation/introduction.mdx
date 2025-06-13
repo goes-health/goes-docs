@@ -5,7 +5,7 @@ description: 'Introduction to the GOES Health API'
 
 ## Overview
 
-The GOES Health API is a REST-first service that delivers outdoor risk intelligence as easy-to-consume JSON. Each endpoint is:
+The GOES API uses REST endpoints with JSON responses. Each endpoint is:
 
 - Location-aware: latitude/longitude in every request
 - Real-time: continuously updated location risks for time-sensitive decisions
@@ -99,27 +99,30 @@ Our API monitors a comprehensive set of outdoor health risks across multiple cat
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-red-600"/>
-        <div>Severe Weather</div>
+        <div>Severe Thunderstorm Warning</div>
       </div>
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-orange-600"/>
-        <div>Fire & Heat</div>
+        <div>Red Flag Warning</div>
       </div>
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-blue-600"/>
-        <div>Winter & Ice</div>
+        <div>Winter Storm Warning</div>
       </div>
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-purple-600"/>
-        <div>Coastal & Flood</div>
+        <div>Flash Flood Warning</div>
       </div>
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-slate-600"/>
-        <div>Air & Visibility</div>
+        <div>Air Quality Alert</div>
       </div>
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-rose-600"/>
-        <div>Emergency</div>
+        <div>Tornado Warning</div>
+      </div>
+      <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        +104 more alert types...
       </div>
     </div>
   </Card>

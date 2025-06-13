@@ -5,12 +5,11 @@ description: 'Make your first GOES Health API request in minutes'
 
 ## Setup
 
-1. Request an API key [here](mailto:api@goes.health?subject=API%20Key%20Request)
-2. Store your API key securely
+Request an API key [here](mailto:api@goes.health?subject=API%20Key%20Request)
 
 ## Basic Request
 
-The GOES Health API uses REST endpoints with JSON responses. Let's check for all current environmental risks at Half Dome in Yosemite:
+Let's check for current environmental risks at Half Dome in Yosemite:
 
 <CodeGroup>
 ```bash cURL
@@ -130,6 +129,8 @@ All responses include an array of `risks`:
 }
 ```
 
+If a risk is not present, it will be omitted from the `risks`. 
+
 ## Precise Request
 
 Request specific risks by passing their IDs. Available risk IDs: `sunburn`, `high-altitude`, `heat-illness`, `breathing-problems`, `frostbite`, `hypothermia`, `lightning`.
@@ -167,7 +168,7 @@ def check_specific_risks():
 ```
 </CodeGroup>
 
-This behavior is supported by the [/wildlife](/api-reference/wildlife) endpoint as well. 
+This behavior is also supported by the [/wildlife](/api-reference/wildlife) endpoint. 
 
 ## Complete Request
 
@@ -214,8 +215,6 @@ def get_complete_overview():
 ## Next Steps
 
 - Explore the full **[API Reference](/api-reference/risks)** for optional parameters
-- Add wildlife data with the **/v1/wildlife** endpoint
-- Implement smart overviews with **/v1/overview**
 
 <Callout icon="lightbulb" color="yellow">
 Need help or have questions? Email us at <a href="mailto:api@goes.health?subject=API%20Support">api@goes.health</a>.

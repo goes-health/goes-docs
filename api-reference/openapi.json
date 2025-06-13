@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "GOES Health API",
-    "description": "API for accessing outdoor-related health risk data.",
+    "description": "API for accessing outdoor health risk data.",
     "license": {
       "name": "MIT"
     },
@@ -270,7 +270,7 @@
           {
             "name": "activity",
             "in": "query",
-            "description": "The outdoor activity you plan to do (e.g., 'hiking', 'camping', 'skiing'). This helps personalize the risk assessment.",
+            "description": "The outdoor activity you plan to do (e.g., 'hiking', 'camping', 'skiing'). This helps personalize the risk summary.",
             "required": false,
             "schema": {
               "type": "string"
@@ -280,7 +280,7 @@
           {
             "name": "age",
             "in": "query",
-            "description": "The age of the person doing the activity. Used to provide age-appropriate risk assessments.",
+            "description": "The age of the person doing the activity. Used to provide age-appropriate risk analysis when summarizing.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -303,7 +303,7 @@
           {
             "name": "context",
             "in": "query",
-            "description": "Any additional context that may be relevant for risk assessment (e.g., 'traveling with small children', 'recovering from knee injury').",
+            "description": "Any additional context that may be relevant for risk summarization",
             "required": false,
             "schema": {
               "type": "string"
@@ -338,12 +338,10 @@
                       "type": "string",
                       "format": "uuid",
                       "description": "A unique identifier for this response",
-                      "example": "3c90c3cc-0d44-4b50-8888-8dd25736052a"
                     },
                     "summary": {
                       "type": "string",
                       "description": "An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level",
-                      "example": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin..."
                     },
                     "risks": {
                       "type": "array",
@@ -354,7 +352,6 @@
                           "id",
                           "title",
                           "source",
-                          "severity",
                           "tips"
                         ],
                         "properties": {
@@ -377,19 +374,19 @@
                             "description": "The source of this risk",
                             "example": "environment"
                           },
-                          "severity": {
+                          "score": {
                             "type": "integer",
                             "minimum": 0,
-                            "maximum": 4,
-                            "description": "Risk severity from 0 (low) to 4 (extreme)",
-                            "example": 3
+                            "maximum": 3,
+                            "description": "The prevalence score for wildlife risks (0: None, 1: Low, 2: Medium, 3: High). Only present when source is 'wildlife'.",
+                            "example": 2
                           },
                           "tips": {
                             "type": "array",
                             "items": {
                               "type": "string"
                             },
-                            "description": "A collection of one-sentence strings with tips for outdoor adventurers",
+                            "description": "A collection of 1-2 sentence strings with tips and recommendations.",
                             "example": [
                               "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
                               "Wear a wide-brimmed hat and UV-protective clothing.",

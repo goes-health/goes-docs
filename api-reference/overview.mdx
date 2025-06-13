@@ -29,11 +29,11 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
 </ParamField>
 
 <ParamField query="activity" type="string">
-  The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the risk assessment.
+  The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the risk summary.
 </ParamField>
 
 <ParamField query="age" type="integer">
-  The age of the person doing the activity. Used to provide age-appropriate risk assessments.
+  The age of the person doing the activity. Used to provide age-appropriate risk analysis when summarizing.
 </ParamField>
 
 <ParamField query="outdoor_experience" type="integer">
@@ -41,12 +41,12 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
 </ParamField>
 
 <ParamField query="context" type="string">
-  Any additional context that may be relevant for risk assessment (e.g., "traveling with small children", "recovering from knee injury", "training for marathon"). This helps provide more personalized recommendations.
+  Any additional context that may be relevant for risk summarization. This helps provide more personalized recommendations.
 </ParamField>
 
 <ParamField query="exclude" type="string">
   A comma-separated list of sections to exclude from the response. Available options:
-  - `alerts`: Excludes weather alerts
+  - `alerts`: Excludes national watches, warnings, and advisories
   - `environment`: Excludes environmental risks
   - `wildlife`: Excludes wildlife risks
   - `summary`: Excludes the AI-generated summary
@@ -74,11 +74,11 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
     <ResponseField name="source" type="string">
       The source of this risk ("environment" or "wildlife").
     </ResponseField>
-    <ResponseField name="severity" type="integer">
-      Risk severity from 0 (low) to 4 (extreme).
+    <ResponseField name="score" type="integer">
+      For wildlife risks only: prevalence score from 0 (None) to 3 (High).
     </ResponseField>
     <ResponseField name="tips" type="array">
-      A collection of one-sentence strings with tips for outdoor adventurers.
+      A collection of 1-2 sentence strings with tips and recommendations.
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -112,7 +112,7 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detailed&activity=hiking&age=35&outdoor_experience=2&context=traveling+with+small+children&exclude=alerts,wildlife&api_key=YOUR_API_KEY"
+curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=standard&activity=hiking&outdoor_experience=2&api_key=YOUR_API_KEY"
 ```
 
 ### Response
@@ -120,17 +120,52 @@ curl "http://api.goes.health/v1/overview?location=34.0522,-118.2437&length=detai
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "summary": "For your planned hiking activity in the Santa Monica Mountains area with small children, there are several important considerations that require attention. The high UV index (8) poses a significant sunburn risk, especially for young children's sensitive skin, and this is particularly relevant given the lack of natural shade on many trails. There's also a moderate heat illness risk with temperatures reaching 85°F, which could feel more intense for children who may not recognize early signs of heat exhaustion.",
+  "summary": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
   "risks": [
     {
-      "id": "sunburn",
-      "title": "Sunburn",
+      "id": "high-altitude",
+      "title": "High Altitude",
+      "source": "environment",
+      "tips": [
+        ...
+      ]
+    },
+    {
+      "id": "exposure",
+      "title": "Sun Exposure",
       "source": "environment",
       "tips": [
         "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
         "Wear a wide-brimmed hat and UV-protective clothing.",
-        "Try to avoid peak UV hours between 10 AM and 4 PM."
+        "High altitude increases UV exposure - protect exposed skin."
+      ]
+    },
+    {
+      "id": "lightning",
+      "title": "lightning",
+      "source": "environment",
+      "tips": [
+        ...
+      ]
+    },
+    {
+      "id": "bears",
+      "title": "Bears",
+      "source": "wildlife",
+      "score": 2,
+      "tips": [
+        ...
+      ]
+    },
+    {
+      "id": "venomous-snakes",
+      "title": "venomous-snakes",
+      "source": "wildlife",
+      "score": 1,
+      "tips": [
+        ...
       ]
     }
-  ]
+  ],
+  "alerts": []
 }
