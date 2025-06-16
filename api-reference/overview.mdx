@@ -74,11 +74,21 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
     <ResponseField name="source" type="string">
       The source of this risk ("environment" or "wildlife").
     </ResponseField>
+    <ResponseField name="status" type="enum">
+      The status of this risk assessment:
+      - `applicable`: Risk is present and relevant for this location
+      - `not_applicable`: Risk is not present or relevant for this location  
+      - `unavailable`: Risk data is unavailable for this location
+      - `error`: An error occurred while assessing this risk
+    </ResponseField>
     <ResponseField name="score" type="integer">
-      For wildlife risks only: prevalence score from 0 (None) to 3 (High).
+      For wildlife risks only: prevalence score from 0 (None) to 3 (High). Only present when source is 'wildlife' and status is `applicable`.
     </ResponseField>
     <ResponseField name="tips" type="array">
-      A collection of 1-2 sentence strings with tips and recommendations.
+      A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
+    </ResponseField>
+    <ResponseField name="error" type="string">
+      Error message describing what went wrong. Only present when status is `error`.
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -126,14 +136,18 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=stand
       "id": "high-altitude",
       "title": "High Altitude",
       "source": "environment",
+      "status": "applicable",
       "tips": [
-        ...
+        "Ascend gradually to allow your body to acclimatize to lower oxygen levels.",
+        "Stay hydrated and avoid alcohol, which can worsen altitude symptoms.",
+        "Watch for signs of altitude sickness: headache, nausea, dizziness, fatigue."
       ]
     },
     {
-      "id": "exposure",
+      "id": "sunburn",
       "title": "Sun Exposure",
       "source": "environment",
+      "status": "applicable",
       "tips": [
         "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
         "Wear a wide-brimmed hat and UV-protective clothing.",
@@ -142,29 +156,38 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=stand
     },
     {
       "id": "lightning",
-      "title": "lightning",
+      "title": "Lightning",
       "source": "environment",
+      "status": "applicable",
       "tips": [
-        ...
+        "Avoid exposed ridges and peaks during thunderstorms.",
+        "Start early to avoid afternoon lightning activity.",
+        "If caught in a storm, crouch low away from metal objects and water."
       ]
     },
     {
       "id": "bears",
       "title": "Bears",
       "source": "wildlife",
+      "status": "applicable",
       "score": 2,
       "tips": [
-        ...
+        "Store all food in bear canisters or hang at least 12 feet high.",
+        "Make noise while hiking to avoid surprising bears.",
+        "If you encounter a bear, do not run - back away slowly while speaking calmly."
       ]
     },
     {
-      "id": "venomous-snakes",
-      "title": "venomous-snakes",
+      "id": "frostbite",
+      "title": "Frostbite",
+      "source": "environment",
+      "status": "not_applicable"
+    },
+    {
+      "id": "poison-sumac",
+      "title": "Poison Sumac",
       "source": "wildlife",
-      "score": 1,
-      "tips": [
-        ...
-      ]
+      "status": "unavailable"
     }
   ],
   "alerts": []

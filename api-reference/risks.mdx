@@ -46,8 +46,18 @@ The response is a JSON object containing a `risks` array. Each object in the arr
 <ResponseField name="title" type="string">
   The human-readable title of the risk. Example: `Heat Illness`.
 </ResponseField>
+<ResponseField name="status" type="enum">
+  The status of this risk assessment:
+  - `applicable`: Risk is present and relevant for this location
+  - `not_applicable`: Risk is not present or relevant for this location  
+  - `unavailable`: Risk data is unavailable for this location
+  - `error`: An error occurred while assessing this risk
+</ResponseField>
 <ResponseField name="tips" type="array">
-  A collection of 1-2 sentence strings with tips and recommendations.
+  A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
+</ResponseField>
+<ResponseField name="error" type="string">
+  Error message describing what went wrong. Only present when status is `error`.
 </ResponseField>
 
 
@@ -56,7 +66,7 @@ The response is a JSON object containing a `risks` array. Each object in the arr
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness&location=34.0522,-118.2437&api_key=YOUR_API_KEY"
+curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness,frostbite&location=34.0522,-118.2437&api_key=YOUR_API_KEY"
 ```
 
 ### Response
@@ -68,6 +78,7 @@ curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness&location=34.0522,
     {
       "id": "sunburn",
       "title": "Sunburn",
+      "status": "applicable",
       "tips": [
         "Apply SPF 30+ sunscreen. Reapply every 2 hours (or more frequently depending on your personal history with sunburns or if you're sweating).",
         "Your skin can burn in as little as 15 minutes, so it's important to protect your skin.",
@@ -80,6 +91,7 @@ curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness&location=34.0522,
     {
       "id": "heat-illness",
       "title": "Heat Illness",
+      "status": "applicable",
       "tips": [
         "Protecting your skin from the sun can help your body stay cool. Wear light and loose layers, a hat, sunglasses, and sunscreen.",
         "Try to time your activity so that you take a break or find some shade during the hottest part of the day.",
@@ -89,6 +101,11 @@ curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness&location=34.0522,
         "Using a spray bottle to create a mist can help you feel cooler because of increased evaporative cooling.",
         "If you're overheated, cool down by submerging in cold water or dousing your hands, cheeks, and clothes in cold water."
       ]
+    },
+    {
+      "id": "frostbite",
+      "title": "Frostbite",
+      "status": "not_applicable"
     }
   ]
 }

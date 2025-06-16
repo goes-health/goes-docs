@@ -54,6 +54,11 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
                     "risks": {
                       "type": "array",
                       "items": {
@@ -337,63 +342,17 @@
                     "responseId": {
                       "type": "string",
                       "format": "uuid",
-                      "description": "A unique identifier for this response",
+                      "description": "A unique identifier for this response"
                     },
                     "summary": {
                       "type": "string",
-                      "description": "An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level",
+                      "description": "An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level"
                     },
                     "risks": {
                       "type": "array",
                       "description": "A comprehensive array of all risks from environmental and wildlife sources",
                       "items": {
-                        "type": "object",
-                        "required": [
-                          "id",
-                          "title",
-                          "source",
-                          "tips"
-                        ],
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "description": "The unique identifier for the risk",
-                            "example": "sunburn"
-                          },
-                          "title": {
-                            "type": "string",
-                            "description": "The human-readable title of the risk",
-                            "example": "Sunburn"
-                          },
-                          "source": {
-                            "type": "string",
-                            "enum": [
-                              "environment",
-                              "wildlife"
-                            ],
-                            "description": "The source of this risk",
-                            "example": "environment"
-                          },
-                          "score": {
-                            "type": "integer",
-                            "minimum": 0,
-                            "maximum": 3,
-                            "description": "The prevalence score for wildlife risks (0: None, 1: Low, 2: Medium, 3: High). Only present when source is 'wildlife'.",
-                            "example": 2
-                          },
-                          "tips": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            },
-                            "description": "A collection of 1-2 sentence strings with tips and recommendations.",
-                            "example": [
-                              "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
-                              "Wear a wide-brimmed hat and UV-protective clothing.",
-                              "Try to avoid peak UV hours between 10 AM and 4 PM."
-                            ]
-                          }
-                        }
+                        "$ref": "#/components/schemas/OverviewRisk"
                       }
                     },
                     "alerts": {
@@ -470,23 +429,52 @@
     "schemas": {
       "Risk": {
         "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status"
+        ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "The unique identifier for the risk",
+            "example": "sunburn"
           },
           "title": {
-            "type": "string"
+            "type": "string",
+            "description": "The human-readable title of the risk",
+            "example": "Sunburn"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applicable",
+              "not_applicable",
+              "unavailable",
+              "error"
+            ],
+            "description": "The status of this risk assessment"
           },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "A list of safety tips. Only present when status is 'applicable'."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong. Only present when status is 'error'."
           }
         }
       },
       "WildlifeRisk": {
         "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -498,11 +486,21 @@
             "description": "The human-readable title of the risk",
             "example": "Bears"
           },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applicable",
+              "not_applicable",
+              "unavailable",
+              "error"
+            ],
+            "description": "The status of this risk assessment"
+          },
           "score": {
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High)",
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
             "example": 2
           },
           "tips": {
@@ -510,7 +508,74 @@
             "items": {
               "type": "string"
             },
-            "description": "A list of safety tips related to this wildlife risk"
+            "description": "A list of safety tips related to this wildlife risk. Only present when status is 'applicable'."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong. Only present when status is 'error'."
+          }
+        }
+      },
+      "OverviewRisk": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "source",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the risk",
+            "example": "sunburn"
+          },
+          "title": {
+            "type": "string",
+            "description": "The human-readable title of the risk",
+            "example": "Sunburn"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "environment",
+              "wildlife"
+            ],
+            "description": "The source of this risk",
+            "example": "environment"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applicable",
+              "not_applicable",
+              "unavailable",
+              "error"
+            ],
+            "description": "The status of this risk assessment"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "description": "The prevalence score for wildlife risks (0: None, 1: Low, 2: Medium, 3: High). Only present when source is 'wildlife' and status is 'applicable'.",
+            "example": 2
+          },
+          "tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A collection of 1-2 sentence strings with tips and recommendations. Only present when status is 'applicable'.",
+            "example": [
+              "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
+              "Wear a wide-brimmed hat and UV-protective clothing.",
+              "Try to avoid peak UV hours between 10 AM and 4 PM."
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong. Only present when status is 'error'."
           }
         }
       },
