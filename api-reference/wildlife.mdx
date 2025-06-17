@@ -43,34 +43,36 @@ The response is a JSON object containing a `responseId` and a `risks` array. Eac
 
 <ResponseField name="risks" type="array">
   An array of risk objects.
-  <ResponseField name="id" type="string">
-    The unique identifier for the risk. Example: `bears`.
-  </ResponseField>
-  <ResponseField name="title" type="string">
-    The human-readable title of the risk. Example: `Bears`.
-  </ResponseField>
-  <ResponseField name="status" type="enum">
-    The status of this risk assessment:
-    - `applicable`: Risk is present and relevant for this location
-    - `not_applicable`: Risk is not present or relevant for this location  
-    - `unavailable`: Risk data is unavailable for this location
-    - `error`: An error occurred while assessing this risk
-  </ResponseField>
-  <ResponseField name="score" type="number">
-    A number from 0-3 representing the prevalence of this wildlife in the area:
-    - 0: None
-    - 1: Low
-    - 2: Medium
-    - 3: High
-    
-    Only present when status is `applicable`.
-  </ResponseField>
-  <ResponseField name="tips" type="array">
-    A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
-  </ResponseField>
-  <ResponseField name="error" type="string">
-    Error message describing what went wrong. Only present when status is `error`.
-  </ResponseField>
+  <Expandable title="child attributes">
+    <ResponseField name="id" type="string">
+      The unique identifier for the risk. Example: `bears`.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      The human-readable title of the risk. Example: `Bears`.
+    </ResponseField>
+    <ResponseField name="status" type="enum">
+      The status of this risk assessment:
+      - `applicable`: Risk is present and relevant for this location
+      - `not_applicable`: Risk is not present or relevant for this location  
+      - `unavailable`: Risk data is unavailable for this location
+      - `error`: An error occurred while assessing this risk
+    </ResponseField>
+    <ResponseField name="score" type="number">
+      A number from 0-3 representing the prevalence of this wildlife in the area:
+      - 0: None
+      - 1: Low
+      - 2: Medium
+      - 3: High
+      
+      Only present when status is `applicable`.
+    </ResponseField>
+    <ResponseField name="tips" type="array">
+      A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
+    </ResponseField>
+    <ResponseField name="error" type="string">
+      Error message describing what went wrong. Only present when status is `error`.
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 ## Example
