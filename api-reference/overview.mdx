@@ -1,15 +1,52 @@
 ---
 title: 'Get Overview'
-openapi: 'POST /v1/overview'
+openapi: 'GET /v1/overview'
 ---
 
 <Note type="warning">
   **Coming Soon** — This endpoint is under development and will be available at a future date.
 </Note>
 
-This endpoint provides a comprehensive overview of all risks and alerts for a location, combining environmental risks, wildlife risks, and national weather alerts. It also provides a personalized AI-generated summary based on your activity and experience level.
+Get a comprehensive overview of all risks and alerts for a location, combining environmental risks, wildlife risks, and national weather alerts. Available in two formats: a simple cacheable GET request for quick checks, or an advanced POST request with full customization options.
 
-## Request
+## Simple Request (GET)
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField query="length" type="string">
+  Controls the length of the overview summary text. Options:
+  - `brief`: 1-2 sentences focusing on the most critical risks
+  - `standard`: 3-4 sentences with key risks and basic context (default)
+  - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+</ParamField>
+
+<ParamField query="exclude" type="string">
+  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `summary`
+</ParamField>
+
+### Example
+
+```bash
+# Basic request
+curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+
+# With options
+curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detailed&exclude=alerts" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Advanced Request (POST)
 
 ### Headers
 
@@ -129,13 +166,10 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
   </Expandable>
 </ResponseField>
 
-## Example
-
-### Request
+### Example
 
 ```bash
 curl -X POST "http://api.goes.health/v1/overview" \
-  -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
     "location": "37.7485,-119.5331",
@@ -152,7 +186,9 @@ curl -X POST "http://api.goes.health/v1/overview" \
   }'
 ```
 
-### Response
+## Response
+
+Both the GET and POST methods return the same response format. The POST method provides more personalized content in the summary field.
 
 ```json
 {

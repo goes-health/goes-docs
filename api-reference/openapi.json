@@ -236,6 +236,149 @@
       }
     },
     "/v1/overview": {
+      "get": {
+        "description": "Returns an overview of all risks for a given location with default settings. Simple, cacheable, and ideal for quick risk checks.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer your_api_key_here"
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
+            },
+            "example": "37.7485,-119.5331"
+          },
+          {
+            "name": "length",
+            "in": "query",
+            "description": "Controls the length of the overview summary text.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "brief",
+                "standard",
+                "detailed"
+              ],
+              "default": "standard"
+            }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, summary",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "alerts,wildlife"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A basic overview of all risks with default settings.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "responseId",
+                    "summary",
+                    "risks"
+                  ],
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
+                    "summary": {
+                      "type": "string",
+                      "description": "An AI-generated summary paragraph that consolidates all risks and alerts"
+                    },
+                    "risks": {
+                      "type": "array",
+                      "description": "A comprehensive array of all risks from environmental and wildlife sources",
+                      "items": {
+                        "$ref": "#/components/schemas/OverviewRisk"
+                      }
+                    },
+                    "alerts": {
+                      "type": "array",
+                      "description": "An array of active NOAA weather alerts for the United States",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "event",
+                          "severity",
+                          "senderName",
+                          "headline",
+                          "description",
+                          "instruction"
+                        ],
+                        "properties": {
+                          "event": {
+                            "type": "string",
+                            "description": "The type of weather event",
+                            "example": "Severe Thunderstorm Warning"
+                          },
+                          "severity": {
+                            "type": "string",
+                            "description": "The severity level of the alert as specified by NOAA",
+                            "example": "Severe"
+                          },
+                          "senderName": {
+                            "type": "string",
+                            "description": "The NWS office that issued the alert",
+                            "example": "NWS Los Angeles CA"
+                          },
+                          "headline": {
+                            "type": "string",
+                            "description": "A complete headline of the alert including timing and issuing office",
+                            "example": "Severe Thunderstorm Warning issued August 15 at 2:30PM PDT until August 15 at 5:00PM PDT by NWS Los Angeles CA"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Detailed description of the weather event, including specific hazards, source of information, and impacts",
+                            "example": "At 2:30 PM PDT, a severe thunderstorm was located over the Santa Monica Mountains, moving east at 25 mph. HAZARD...60 mph wind gusts and penny size hail. SOURCE...Radar indicated."
+                          },
+                          "instruction": {
+                            "type": "string",
+                            "description": "Safety instructions and recommended actions for the public",
+                            "example": "For your protection move to an interior room on the lowest floor of a building. Torrential rainfall is occurring with this storm, and may lead to flash flooding."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "description": "Returns a comprehensive overview of all risks for a given location with a personalized AI summary.",
         "parameters": [
