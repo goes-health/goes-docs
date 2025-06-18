@@ -1,6 +1,6 @@
 ---
 title: 'Get Overview'
-openapi: 'GET /v1/overview'
+openapi: 'POST /v1/overview'
 ---
 
 <Note type="warning">
@@ -11,45 +11,57 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
 
 ## Request
 
-### Query Parameters
+### Headers
 
-<ParamField query="api_key" type="string" required>
-  Your API key for authentication.
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
 </ParamField>
 
-<ParamField query="location" type="string" required>
+### Body Parameters
+
+<ParamField body="location" type="string" required>
   The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
 </ParamField>
 
-<ParamField query="length" type="string">
-  Controls the length of the overview summary text. Available options:
-  - `brief`: 1-2 sentences focusing on the most critical risks
-  - `standard`: 3-4 sentences with key risks and basic context (default)
-  - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+<ParamField body="options" type="object">
+  Configuration options that control how the response is built.
+  <Expandable title="options properties">
+    <ParamField body="options.length" type="string">
+      Controls the length of the overview summary text. Available options:
+      - `brief`: 1-2 sentences focusing on the most critical risks
+      - `standard`: 3-4 sentences with key risks and basic context (default)
+      - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+    </ParamField>
+    
+    <ParamField body="options.exclude" type="array">
+      A list of sections to exclude from the response. Available options:
+      - `alerts`: Excludes national watches, warnings, and advisories
+      - `environment`: Excludes environmental risks
+      - `wildlife`: Excludes wildlife risks
+      - `summary`: Excludes the AI-generated summary
+    </ParamField>
+  </Expandable>
 </ParamField>
 
-<ParamField query="activity" type="string">
-  The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the risk summary.
-</ParamField>
-
-<ParamField query="age" type="integer">
-  The age of the person doing the activity. Used to provide age-appropriate risk analysis when summarizing.
-</ParamField>
-
-<ParamField query="outdoor_experience" type="integer">
-  Experience level with outdoor activities, from 0 (beginner) to 4 (expert).
-</ParamField>
-
-<ParamField query="context" type="string">
-  Any additional context that may be relevant for risk summarization. This helps provide more personalized recommendations.
-</ParamField>
-
-<ParamField query="exclude" type="string">
-  A comma-separated list of sections to exclude from the response. Available options:
-  - `alerts`: Excludes national watches, warnings, and advisories
-  - `environment`: Excludes environmental risks
-  - `wildlife`: Excludes wildlife risks
-  - `summary`: Excludes the AI-generated summary
+<ParamField body="profile" type="object">
+  Information about who is going outside. This object is extensible - you can add custom fields beyond the standard ones listed below.
+  <Expandable title="profile properties">
+    <ParamField body="profile.activity" type="string">
+      The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the risk summary.
+    </ParamField>
+    
+    <ParamField body="profile.age" type="integer">
+      The age of the person doing the activity. Used to provide age-appropriate risk analysis when summarizing.
+    </ParamField>
+    
+    <ParamField body="profile.outdoor_experience" type="integer">
+      Experience level with outdoor activities, from 0 (beginner) to 4 (expert).
+    </ParamField>
+    
+    <ParamField body="profile.context" type="string">
+      Any additional context that may be relevant for risk summarization. This helps provide more personalized recommendations.
+    </ParamField>
+  </Expandable>
 </ParamField>
 
 ## Response
@@ -122,7 +134,22 @@ This endpoint provides a comprehensive overview of all risks and alerts for a lo
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=standard&activity=hiking&outdoor_experience=2&api_key=YOUR_API_KEY"
+curl -X POST "http://api.goes.health/v1/overview" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "location": "37.7485,-119.5331",
+    "options": {
+      "length": "standard",
+      "exclude": []
+    },
+    "profile": {
+      "activity": "hiking",
+      "age": 32,
+      "outdoor_experience": 2,
+      "context": "First time hiker"
+    }
+  }'
 ```
 
 ### Response

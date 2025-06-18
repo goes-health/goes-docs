@@ -7,11 +7,13 @@ This endpoint allows you to check for various outdoor health risks based on a sp
 
 ## Request
 
-### Query Parameters
+### Headers
 
-<ParamField query="api_key" type="string" required>
-  Your API key for authentication.
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
 </ParamField>
+
+### Query Parameters
 
 <ParamField query="location" type="string" required>
   The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
@@ -68,7 +70,8 @@ The response is a JSON object containing a `risks` array. Each object in the arr
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness,frostbite&location=34.0522,-118.2437&api_key=YOUR_API_KEY"
+curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness,frostbite&location=34.0522,-118.2437" \
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response

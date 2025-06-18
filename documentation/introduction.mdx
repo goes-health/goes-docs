@@ -161,7 +161,7 @@ Our API provides three core endpoints to access outdoor risk intelligence:
     Use for a complete understanding of risks and recommendations. Includes all previous endpoint data and more.
 
     <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
-      GET /v1/overview
+      POST /v1/overview
     </code>
 
     <a href="/api-reference/overview" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
@@ -172,10 +172,11 @@ Our API provides three core endpoints to access outdoor risk intelligence:
 
 ## Authentication
 
-All API requests require an API key as a query parameter:
+All API requests require an API key in the Authorization header:
 
 ```bash
-curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581&api_key=YOUR_API_KEY"
+curl "https://api.goes.health/v1/risks?location=37.7325,-119.5581" \
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 [Request an API key here](mailto:api@goes.health?subject=API%20Key%20Request)

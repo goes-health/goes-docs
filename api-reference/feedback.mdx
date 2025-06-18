@@ -11,10 +11,10 @@ This endpoint allows you to submit feedback about the accuracy of a risk assessm
 
 ## Request
 
-### Query Parameters
+### Headers
 
-<ParamField query="api_key" type="string" required>
-  Your API key for authentication.
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
 </ParamField>
 
 ### Body
@@ -42,8 +42,9 @@ This endpoint allows you to submit feedback about the accuracy of a risk assessm
 ### Request
 
 ```bash
-curl -X POST "http://api.goes.health/v1/feedback?api_key=YOUR_API_KEY" \
+curl -X POST "http://api.goes.health/v1/feedback" \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
     "responseId": "123e4567-e89b-12d3-a456-426614174000",
     "feedback": "I am a local park ranger and can confirm there is no poison sumac in this area. The nearest occurrence is over 50 miles away in a different ecosystem."
