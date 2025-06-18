@@ -1,6 +1,6 @@
 ---
 title: 'Get Wildlife'
-openapi: 'GET /v1/wildlife'
+openapi: 'GET /v1/risks/wildlife'
 ---
 
 <Note type="warning">
@@ -24,11 +24,8 @@ This endpoint allows you to check for wildlife-related health risks based on a s
 </ParamField>
 
 <ParamField query="ids" type="string">
-  A comma-separated list of wildlife risk IDs to check. If you do not provide this, all risks will be checked.
+  A comma-separated list of wildlife risk IDs to check. If you do not provide this, all wildlife risks will be checked.
   The available `ids` are:
-  - `poison-sumac`
-  - `poison-oak`
-  - `poison-ivy`
   - `bears`
   - `venomous-snakes`
   - `mosquitoes`
@@ -82,7 +79,7 @@ The response is a JSON object containing a `responseId` and a `risks` array. Eac
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/wildlife?ids=bears,venomous-snakes,poison-sumac&location=34.0522,-118.2437" \
+curl "http://api.goes.health/v1/risks/wildlife?ids=bears,venomous-snakes&location=34.0522,-118.2437" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -117,11 +114,6 @@ curl "http://api.goes.health/v1/wildlife?ids=bears,venomous-snakes,poison-sumac&
         "Not all venomous snakes are rattlesnakes. Learn which venomous snakes are in the area and how to identify them.",
         "If bitten by a venomous snake, try to stay calm while you get to emergency medical care. Methods to slow or stop the venom will only make the bite worse."
       ]
-    },
-    {
-      "id": "poison-sumac",
-      "title": "Poison Sumac",
-      "status": "not_applicable"
     }
   ]
 } 

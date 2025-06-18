@@ -1,13 +1,13 @@
 ---
 title: 'Get Overview'
-openapi: 'GET /v1/overview'
+openapi: 'GET /v1/risks/overview'
 ---
 
 <Note type="warning">
   **Coming Soon** — This endpoint is under development and will be available at a future date.
 </Note>
 
-Get a comprehensive overview of all risks and alerts for a location, combining environmental risks, wildlife risks, and national weather alerts. Available in two formats: a simple cacheable GET request for quick checks, or an advanced POST request with full customization options.
+Get a comprehensive overview of all risks and alerts for a location, combining environmental risks, wildlife risks, plant risks, and national weather alerts. Available in two formats: a simple cacheable GET request for quick checks, or an advanced POST request with full customization options.
 
 ## Simple Request (GET)
 
@@ -31,18 +31,18 @@ Get a comprehensive overview of all risks and alerts for a location, combining e
 </ParamField>
 
 <ParamField query="exclude" type="string">
-  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `summary`
+  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `summary`
 </ParamField>
 
 ### Example
 
 ```bash
 # Basic request
-curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331" \
+curl "http://api.goes.health/v1/risks/overview?location=37.7485,-119.5331" \
   -H "Authorization: Bearer YOUR_API_KEY"
 
 # With options
-curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detailed&exclude=alerts" \
+curl "http://api.goes.health/v1/risks/overview?location=37.7485,-119.5331&length=detailed&exclude=alerts" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -75,6 +75,7 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detai
       - `alerts`: Excludes national watches, warnings, and advisories
       - `environment`: Excludes environmental risks
       - `wildlife`: Excludes wildlife risks
+      - `plants`: Excludes plant risks
       - `summary`: Excludes the AI-generated summary
     </ParamField>
   </Expandable>
@@ -112,7 +113,7 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detai
 </ResponseField>
 
 <ResponseField name="risks" type="array">
-  A comprehensive array of all risks from environmental and wildlife sources.
+  A comprehensive array of all risks from environmental, wildlife, and plant sources.
   <Expandable title="child attributes">
     <ResponseField name="id" type="string">
       The unique identifier for the risk.
@@ -121,7 +122,7 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detai
       The human-readable title of the risk.
     </ResponseField>
     <ResponseField name="source" type="string">
-      The source of this risk ("environment" or "wildlife").
+      The source of this risk ("environment", "wildlife", or "plants").
     </ResponseField>
     <ResponseField name="status" type="enum">
       The status of this risk assessment:
@@ -131,7 +132,7 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detai
       - `error`: An error occurred while assessing this risk
     </ResponseField>
     <ResponseField name="score" type="integer">
-      For wildlife risks only: prevalence score from 0 (None) to 3 (High). Only present when source is 'wildlife' and status is `applicable`.
+      For wildlife and plant risks: prevalence score from 0 (None) to 3 (High). Only present when source is 'wildlife' or 'plants' and status is `applicable`.
     </ResponseField>
     <ResponseField name="tips" type="array">
       A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
@@ -169,7 +170,7 @@ curl "http://api.goes.health/v1/overview?location=37.7485,-119.5331&length=detai
 ### Example
 
 ```bash
-curl -X POST "http://api.goes.health/v1/overview" \
+curl -X POST "http://api.goes.health/v1/risks/overview" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
     "location": "37.7485,-119.5331",
@@ -249,7 +250,7 @@ Both the GET and POST methods return the same response format. The POST method p
     {
       "id": "poison-sumac",
       "title": "Poison Sumac",
-      "source": "wildlife",
+      "source": "plants",
       "status": "unavailable"
     }
   ],

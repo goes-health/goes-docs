@@ -14,7 +14,7 @@
     }
   ],
   "paths": {
-    "/v1/risks": {
+    "/v1/risks/environmental": {
       "get": {
         "description": "Returns a list of environmental health risks based on location and selected IDs.",
         "parameters": [
@@ -40,7 +40,7 @@
           {
             "name": "ids",
             "in": "query",
-            "description": "A comma-separated list of risk IDs.",
+            "description": "A comma-separated list of environmental risk IDs.",
             "required": false,
             "schema": {
               "type": "string"
@@ -49,7 +49,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of risks.",
+            "description": "A list of environmental risks.",
             "content": {
               "application/json": {
                 "schema": {
@@ -84,7 +84,7 @@
         }
       }
     },
-    "/v1/wildlife": {
+    "/v1/risks/wildlife": {
       "get": {
         "description": "Returns a list of wildlife-related risks based on location and selected IDs.",
         "parameters": [
@@ -134,6 +134,76 @@
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/WildlifeRisk"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/risks/plants": {
+      "get": {
+        "description": "Returns a list of plant-related risks based on location and selected IDs.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer your_api_key_here"
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "A comma-separated list of plant risk IDs.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of plant risks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
+                    "risks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PlantRisk"
                       }
                     }
                   }
@@ -235,7 +305,7 @@
         }
       }
     },
-    "/v1/overview": {
+    "/v1/risks/overview": {
       "get": {
         "description": "Returns an overview of all risks for a given location with default settings. Simple, cacheable, and ideal for quick risk checks.",
         "parameters": [
@@ -278,7 +348,7 @@
           {
             "name": "exclude",
             "in": "query",
-            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, summary",
+            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, summary",
             "required": false,
             "schema": {
               "type": "string"
@@ -310,7 +380,7 @@
                     },
                     "risks": {
                       "type": "array",
-                      "description": "A comprehensive array of all risks from environmental and wildlife sources",
+                      "description": "A comprehensive array of all risks from environmental, wildlife, and plant sources",
                       "items": {
                         "$ref": "#/components/schemas/OverviewRisk"
                       }
@@ -457,7 +527,7 @@
                     },
                     "risks": {
                       "type": "array",
-                      "description": "A comprehensive array of all risks from environmental and wildlife sources",
+                      "description": "A comprehensive array of all risks from environmental, wildlife, and plant sources",
                       "items": {
                         "$ref": "#/components/schemas/OverviewRisk"
                       }
@@ -585,12 +655,12 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The unique identifier for the risk",
+            "description": "The unique identifier for the wildlife risk",
             "example": "bears"
           },
           "title": {
             "type": "string",
-            "description": "The human-readable title of the risk",
+            "description": "The human-readable title of the wildlife risk",
             "example": "Bears"
           },
           "status": {
@@ -623,6 +693,54 @@
           }
         }
       },
+      "PlantRisk": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the plant risk",
+            "example": "poison-ivy"
+          },
+          "title": {
+            "type": "string",
+            "description": "The human-readable title of the plant risk",
+            "example": "Poison Ivy"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applicable",
+              "not_applicable",
+              "unavailable",
+              "error"
+            ],
+            "description": "The status of this risk assessment"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "example": 2
+          },
+          "tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of safety tips related to this plant risk. Only present when status is 'applicable'."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong. Only present when status is 'error'."
+          }
+        }
+      },
       "OverviewRisk": {
         "type": "object",
         "required": [
@@ -646,7 +764,8 @@
             "type": "string",
             "enum": [
               "environment",
-              "wildlife"
+              "wildlife",
+              "plants"
             ],
             "description": "The source of this risk",
             "example": "environment"
@@ -665,7 +784,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "The prevalence score for wildlife risks (0: None, 1: Low, 2: Medium, 3: High). Only present when source is 'wildlife' and status is 'applicable'.",
+            "description": "The prevalence score for wildlife and plant risks (0: None, 1: Low, 2: Medium, 3: High). Only present when source is 'wildlife' or 'plants' and status is 'applicable'.",
             "example": 2
           },
           "tips": {
@@ -725,6 +844,7 @@
                 "alerts",
                 "environment",
                 "wildlife",
+                "plants",
                 "summary"
               ]
             },

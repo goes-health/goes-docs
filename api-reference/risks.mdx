@@ -1,6 +1,6 @@
 ---
-title: 'Get Risks'
-openapi: 'GET /v1/risks'
+title: 'Get Environmental'
+openapi: 'GET /v1/risks/environmental'
 ---
 
 This endpoint allows you to check for various outdoor health risks based on a specific location. You can check for all environmental risks or specify particular ones.
@@ -70,7 +70,7 @@ The response is a JSON object containing a `risks` array. Each object in the arr
 ### Request
 
 ```bash
-curl "http://api.goes.health/v1/risks?ids=sunburn,heat-illness,frostbite&location=34.0522,-118.2437" \
+curl "http://api.goes.health/v1/risks/environmental?ids=sunburn,heat-illness,frostbite&location=34.0522,-118.2437" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 

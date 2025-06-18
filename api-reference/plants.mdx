@@ -1,0 +1,119 @@
+---
+title: 'Get Plants'
+openapi: 'GET /v1/risks/plants'
+---
+
+<Note type="warning">
+  **Coming Soon** — This endpoint is under development and will be available at a future date.
+</Note>
+
+This endpoint allows you to check for plant-related health risks based on a specific location. You can check for all plant risks or specify particular ones.
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField query="ids" type="string">
+  A comma-separated list of plant risk IDs to check. If you do not provide this, all plant risks will be checked.
+  The available `ids` are:
+  - `poison-sumac`
+  - `poison-oak`
+  - `poison-ivy`
+</ParamField>
+
+## Response
+
+The response is a JSON object containing a `responseId` and a `risks` array. Each object in the array represents a specific plant risk and includes an `id`, a `title`, a `score`, and a list of `tips`.
+
+<ResponseField name="responseId" type="string">
+  A unique identifier for this response. Use this ID if submitting feedback about the response.
+</ResponseField>
+
+<ResponseField name="risks" type="array">
+  An array of plant risk objects.
+  <Expandable title="child attributes">
+    <ResponseField name="id" type="string">
+      The unique identifier for the plant risk. Example: `poison-ivy`.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      The human-readable title of the plant risk. Example: `Poison Ivy`.
+    </ResponseField>
+    <ResponseField name="status" type="enum">
+      The status of this risk assessment:
+      - `applicable`: Risk is present and relevant for this location
+      - `not_applicable`: Risk is not present or relevant for this location  
+      - `unavailable`: Risk data is unavailable for this location
+      - `error`: An error occurred while assessing this risk
+    </ResponseField>
+    <ResponseField name="score" type="number">
+      A number from 0-3 representing the prevalence of this plant in the area:
+      - 0: None
+      - 1: Low
+      - 2: Medium
+      - 3: High
+      
+      Only present when status is `applicable`.
+    </ResponseField>
+    <ResponseField name="tips" type="array">
+      A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
+    </ResponseField>
+    <ResponseField name="error" type="string">
+      Error message describing what went wrong. Only present when status is `error`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Example
+
+### Request
+
+```bash
+curl "http://api.goes.health/v1/risks/plants?ids=poison-ivy,poison-oak&location=34.0522,-118.2437" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "risks": [
+    {
+      "id": "poison-ivy",
+      "title": "Poison Ivy",
+      "status": "applicable",
+      "score": 2,
+      "tips": [
+        "Learn to identify poison ivy: 'leaves of three, let it be.' The plant has three leaflets with the middle leaflet having a longer stem.",
+        "Wear long pants, long sleeves, and closed-toe shoes when hiking in areas where poison ivy might be present.",
+        "If you think you've been exposed, wash with cool water and dish soap as soon as possible to remove the oils.",
+        "Never burn poison ivy - the smoke can cause serious respiratory problems if inhaled.",
+        "Apply cool compresses and calamine lotion to reduce itching if you develop a rash."
+      ]
+    },
+    {
+      "id": "poison-oak",
+      "title": "Poison Oak",
+      "status": "applicable",
+      "score": 1,
+      "tips": [
+        "Poison oak can appear as a shrub or climbing vine. Look for clusters of three leaflets that may be lobed or smooth-edged.",
+        "The plant's appearance changes with seasons - leaves are red in spring, green in summer, and yellow/red in fall.",
+        "Wash all clothing, gear, and pets that may have contacted the plant, as the oils can remain active for months.",
+        "If exposed, remove contaminated clothing carefully and wash your skin with cold water immediately.",
+        "Seek medical attention if you develop severe reactions like difficulty breathing or widespread blistering."
+      ]
+    }
+  ]
+}
+``` 
