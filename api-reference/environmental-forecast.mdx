@@ -1,0 +1,73 @@
+---
+title: 'Get Environmental Forecast'
+openapi: 'GET /v1/risks/environmental/forecast'
+---
+
+Get a 48-hour, hour-by-hour forecast of environmental risks for a location.
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField query="ids" type="string">
+  A comma-separated list of risk IDs to include. If omitted, all environmental risks are returned.
+</ParamField>
+
+## Response
+
+<ResponseField name="responseId" type="string">
+  A unique identifier for this response. Use this ID if submitting feedback about the forecast.
+</ResponseField>
+
+<ResponseField name="forecast" type="array">
+  An array of 48 hourly forecast entries.
+  <Expandable title="child attributes">
+    <ResponseField name="time" type="string">
+      ISO 8601 timestamp (UTC) representing the forecast hour.
+    </ResponseField>
+    <ResponseField name="risks" type="array">
+      The environmental risks predicted for this hour.
+      <Expandable title="child attributes">
+        See the Environmental Risks endpoint for the full risk object definition.
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example
+
+```bash
+curl "http://api.goes.health/v1/risks/environmental/forecast?location=34.0522,-118.2437" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "forecast": [
+    {
+      "time": "2024-06-27T00:00:00Z",
+      "risks": [
+        {
+          "id": "sunburn",
+          "title": "Sunburn",
+          "status": "applicable",
+          "tips": [
+            "..."
+          ]
+        }
+      ]
+    }
+  ]
+}
+``` 

@@ -1,0 +1,78 @@
+---
+title: 'Get Forecast Overview'
+openapi: 'GET /v1/risks/overview/forecast'
+---
+
+Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, and plant risks, plus active weather alerts, into a single summarized view.
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+## Response
+
+<ResponseField name="responseId" type="string">
+  A unique identifier for this response. Use this ID if submitting feedback about the forecast.
+</ResponseField>
+
+<ResponseField name="forecast" type="array">
+  An array of 48 hourly forecast entries.
+  <Expandable title="child attributes">
+    <ResponseField name="time" type="string">
+      ISO 8601 timestamp (UTC) representing the forecast hour.
+    </ResponseField>
+    <ResponseField name="summary" type="string">
+      AI-generated summary paragraph for this hour.
+    </ResponseField>
+    <ResponseField name="risks" type="array">
+      Consolidated risks for this hour.
+      <Expandable title="child attributes">
+        See the Risk Overview endpoint for the full risk object definition.
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="alerts" type="array">
+      Active NOAA weather alerts for this hour (United States only).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example
+
+```bash
+curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.5331" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```json
+{
+  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "forecast": [
+    {
+      "time": "2024-06-27T00:00:00Z",
+      "summary": "UV levels peak early with high lightning risk in the afternoon...",
+      "risks": [
+        {
+          "id": "sunburn",
+          "title": "Sunburn",
+          "source": "environment",
+          "status": "applicable",
+          "tips": [
+            "Apply SPF 30+ sunscreen. Reapply every 2 hours."
+          ]
+        }
+      ],
+      "alerts": []
+    }
+  ]
+}
+``` 

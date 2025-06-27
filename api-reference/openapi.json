@@ -600,6 +600,150 @@
           }
         }
       }
+    },
+    "/v1/risks/environmental/forecast": {
+      "get": {
+        "description": "Returns a 48-hour forecast of environmental risks for a given location.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer your_api_key_here"
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "37.7485,-119.5331"
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "A comma-separated list of environmental risk IDs to include in the forecast.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A 48-hour forecast of environmental risks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "responseId",
+                    "forecast"
+                  ],
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
+                    "forecast": {
+                      "type": "array",
+                      "description": "48 entries (hourly) each containing the set of environmental risks for that hour.",
+                      "items": {
+                        "$ref": "#/components/schemas/RiskForecastEntry"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/risks/overview/forecast": {
+      "get": {
+        "description": "Returns a 48-hour forecast overview of all risks for a given location.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer your_api_key_here"
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
+            },
+            "example": "37.7485,-119.5331"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A 48-hour forecast overview of risks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "responseId",
+                    "forecast"
+                  ],
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
+                    "forecast": {
+                      "type": "array",
+                      "description": "48 entries (hourly) each containing a summary and risk details.",
+                      "items": {
+                        "$ref": "#/components/schemas/OverviewForecastEntry"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -879,6 +1023,87 @@
             "type": "string",
             "description": "Any additional context that may be relevant for risk summarization",
             "example": "First time hiker"
+          }
+        }
+      },
+      "RiskForecastEntry": {
+        "type": "object",
+        "required": [
+          "time",
+          "risks"
+        ],
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp for the forecast hour"
+          },
+          "risks": {
+            "type": "array",
+            "description": "The environmental risks predicted for this hour.",
+            "items": {
+              "$ref": "#/components/schemas/Risk"
+            }
+          }
+        }
+      },
+      "OverviewForecastEntry": {
+        "type": "object",
+        "required": [
+          "time",
+          "summary",
+          "risks"
+        ],
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp for the forecast hour"
+          },
+          "summary": {
+            "type": "string",
+            "description": "AI-generated summary paragraph for this hour."
+          },
+          "risks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OverviewRisk"
+            }
+          },
+          "alerts": {
+            "type": "array",
+            "description": "Any active NOAA weather alerts for this hour.",
+            "items": {
+              "type": "object",
+              "required": [
+                "event",
+                "severity",
+                "senderName",
+                "headline",
+                "description",
+                "instruction"
+              ],
+              "properties": {
+                "event": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "string"
+                },
+                "senderName": {
+                  "type": "string"
+                },
+                "headline": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "instruction": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }

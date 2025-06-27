@@ -41,12 +41,24 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "GOES API",
+            "group": "Current Risks",
             "pages": [
               "api-reference/risks",
               "api-reference/wildlife",
               "api-reference/plants",
-              "api-reference/overview",
+              "api-reference/overview"
+            ]
+          },
+          {
+            "group": "Forecasted Risks",
+            "pages": [
+              "api-reference/environmental-forecast",
+              "api-reference/overview-forecast"
+            ]
+          },
+          {
+            "group": "Other",
+            "pages": [
               "api-reference/feedback"
             ]
           }
