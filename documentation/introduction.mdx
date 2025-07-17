@@ -130,14 +130,14 @@ Our API monitors a comprehensive set of outdoor health risks across multiple cat
 
 ## API Endpoints
 
-Our API provides four core endpoints to access outdoor risk intelligence:
+Our API provides six core endpoints to access outdoor risk intelligence:
 
 <CardGroup cols={3}>
   <Card title="Environmental Risks">
     Use when only environment risks (e.g. Heat Illness, Breathing Problems) and tips are needed.
 
     <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
-      GET /v1/risks/environmental
+      GET /environmental
     </code>
 
     <a href="/api-reference/risks" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
@@ -149,7 +149,7 @@ Our API provides four core endpoints to access outdoor risk intelligence:
     Use when only wildlife risks (e.g. Bears, Venomous Snakes) and tips are needed.
 
     <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
-      GET /v1/risks/wildlife
+      GET /wildlife
     </code>
 
     <a href="/api-reference/wildlife" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
@@ -161,7 +161,7 @@ Our API provides four core endpoints to access outdoor risk intelligence:
     Use when only plant risks (e.g. Poison Ivy, Poison Oak) and tips are needed.
 
     <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
-      GET /v1/risks/plants
+      GET /plants
     </code>
 
     <a href="/api-reference/plants" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
@@ -173,10 +173,34 @@ Our API provides four core endpoints to access outdoor risk intelligence:
     Use for a complete understanding of risks and recommendations. Includes all previous endpoint data and more.
 
     <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
-      GET /v1/risks/overview
+      GET /overview
     </code>
 
     <a href="/api-reference/overview" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
+      View endpoint →
+    </a>
+  </Card>
+
+  <Card title="Environmental Forecast">
+    Use for 48-hour, hour-by-hour environmental risk forecasts to plan ahead.
+
+    <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
+      GET /environmental/forecast
+    </code>
+
+    <a href="/api-reference/environmental-forecast" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
+      View endpoint →
+    </a>
+  </Card>
+
+  <Card title="Overview Forecast">
+    Use for comprehensive 48-hour forecasts with all risks, alerts, and AI-generated insights.
+
+    <code className="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs">
+      GET /overview/forecast
+    </code>
+
+    <a href="/api-reference/overview-forecast" className="mt-4 inline-flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:underline decoration-[#E7C136] underline-offset-4">
       View endpoint →
     </a>
   </Card>
