@@ -769,6 +769,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
+                    "summary",
                     "forecast"
                   ],
                   "properties": {
@@ -777,9 +778,13 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
+                    "summary": {
+                      "type": "string",
+                      "description": "AI-generated summary of the overall 48-hour forecast"
+                    },
                     "forecast": {
                       "type": "array",
-                      "description": "48 entries (hourly) each containing a summary and risk details.",
+                      "description": "48 entries (hourly) each containing risk details and alerts.",
                       "items": {
                         "$ref": "#/components/schemas/OverviewForecastEntry"
                       }
@@ -864,6 +869,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
+                    "summary",
                     "forecast"
                   ],
                   "properties": {
@@ -872,9 +878,13 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
+                    "summary": {
+                      "type": "string",
+                      "description": "AI-generated summary of the overall 48-hour forecast, personalized to your activity and experience level when using the POST method"
+                    },
                     "forecast": {
                       "type": "array",
-                      "description": "48 entries (hourly) each containing personalized summaries and risk details.",
+                      "description": "48 entries (hourly) each containing risk details and alerts.",
                       "items": {
                         "$ref": "#/components/schemas/OverviewForecastEntry"
                       }
@@ -883,10 +893,10 @@
                 },
                 "example": {
                   "responseId": "123e4567-e89b-12d3-a456-426614174000",
+                  "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
                   "forecast": [
                     {
                       "time": "2024-06-27T00:00:00Z",
-                      "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
                       "risks": [
                         {
                           "id": "sunburn",
@@ -1287,7 +1297,6 @@
         "type": "object",
         "required": [
           "time",
-          "summary",
           "risks"
         ],
         "properties": {
@@ -1295,10 +1304,6 @@
             "type": "string",
             "format": "date-time",
             "description": "ISO 8601 timestamp for the forecast hour"
-          },
-          "summary": {
-            "type": "string",
-            "description": "AI-generated summary paragraph for this hour."
           },
           "risks": {
             "type": "array",

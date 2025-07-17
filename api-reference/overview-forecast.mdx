@@ -126,14 +126,15 @@ Both the GET and POST methods return the same response format. The POST method p
   A unique identifier for this response. Use this ID if submitting feedback about the forecast.
 </ResponseField>
 
+<ResponseField name="summary" type="string">
+  AI-generated summary of the overall 48-hour forecast, personalized to your activity and experience level when using the POST method.
+</ResponseField>
+
 <ResponseField name="forecast" type="array">
   An array of 48 hourly forecast entries.
   <Expandable title="child attributes">
     <ResponseField name="time" type="string">
       ISO 8601 timestamp (UTC) representing the forecast hour.
-    </ResponseField>
-    <ResponseField name="summary" type="string">
-      AI-generated summary paragraph for this hour, personalized to your activity and experience level when using the POST method.
     </ResponseField>
     <ResponseField name="risks" type="array">
       Consolidated risks for this hour.
@@ -150,10 +151,10 @@ Both the GET and POST methods return the same response format. The POST method p
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
+  "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
   "forecast": [
     {
       "time": "2024-06-27T00:00:00Z",
-      "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
       "risks": [
         {
           "id": "sunburn",
