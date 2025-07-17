@@ -27,7 +27,7 @@ Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, 
 </ParamField>
 
 <ParamField query="exclude" type="string">
-  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `summary`
+  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `activity_intelligence`
 </ParamField>
 
 ### Example
@@ -72,7 +72,7 @@ curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.53
       - `environment`: Excludes environmental risks
       - `wildlife`: Excludes wildlife risks
       - `plants`: Excludes plant risks
-      - `summary`: Excludes the AI-generated summary for each hour
+      - `activity_intelligence`: Excludes the AI-generated summary
     </ParamField>
   </Expandable>
 </ParamField>
@@ -81,11 +81,11 @@ curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.53
   Information about who is going outside. This object is extensible - you can add custom fields beyond the standard ones listed below.
   <Expandable title="profile properties">
     <ParamField body="profile.activity" type="string">
-      The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the hourly forecast summaries.
+      The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the Activity Intelligence.
     </ParamField>
     
     <ParamField body="profile.age" type="integer">
-      The age of the person doing the activity. Used to provide age-appropriate risk analysis in the hourly summaries.
+      The age of the person doing the activity. Used to provide age-appropriate risk analysis in the Activity Intelligence.
     </ParamField>
     
     <ParamField body="profile.outdoor_experience" type="integer">
@@ -93,7 +93,7 @@ curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.53
     </ParamField>
     
     <ParamField body="profile.context" type="string">
-      Any additional context that may be relevant for the forecast. This helps provide more personalized recommendations for each hour.
+      Any additional context that may be relevant for the forecast. This helps provide more personalized Activity Intelligence.
     </ParamField>
   </Expandable>
 </ParamField>
@@ -120,13 +120,13 @@ curl -X POST "http://api.goes.health/v1/risks/overview/forecast" \
 
 ## Response
 
-Both the GET and POST methods return the same response format. The POST method provides more personalized content in the summary field for each hourly forecast entry.
+Both the GET and POST methods return the same response format. The POST method provides more personalized content in the Activity Intelligence field.
 
 <ResponseField name="responseId" type="string">
   A unique identifier for this response. Use this ID if submitting feedback about the forecast.
 </ResponseField>
 
-<ResponseField name="summary" type="string">
+<ResponseField name="activity_intelligence" type="string">
   AI-generated summary of the overall 48-hour forecast, personalized to your activity and experience level when using the POST method.
 </ResponseField>
 
@@ -151,7 +151,7 @@ Both the GET and POST methods return the same response format. The POST method p
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
+  "activity_intelligence": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
   "forecast": [
     {
       "time": "2024-06-27T00:00:00Z",

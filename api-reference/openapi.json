@@ -307,7 +307,7 @@
     },
     "/v1/risks/overview": {
       "get": {
-        "description": "Returns an overview of all risks for a given location with default settings. Simple, cacheable, and ideal for quick risk checks.",
+        "description": "Returns an overview of all risks for a given location with default settings.",
         "parameters": [
           {
             "name": "Authorization",
@@ -348,7 +348,7 @@
           {
             "name": "exclude",
             "in": "query",
-            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, summary",
+            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, activity_intelligence",
             "required": false,
             "schema": {
               "type": "string"
@@ -365,7 +365,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
-                    "summary",
+                    "activity_intelligence",
                     "risks"
                   ],
                   "properties": {
@@ -374,7 +374,7 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
-                    "summary": {
+                    "activity_intelligence": {
                       "type": "string",
                       "description": "An AI-generated summary paragraph that consolidates all risks and alerts"
                     },
@@ -436,7 +436,7 @@
                 },
                 "example": {
                   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-                  "summary": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
+                  "activity_intelligence": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
                   "risks": [
                     {
                       "id": "sunburn",
@@ -466,7 +466,7 @@
         }
       },
       "post": {
-        "description": "Returns a comprehensive overview of all risks for a given location with a personalized AI summary.",
+        "description": "Returns a comprehensive overview of all risks for a given location with personalized Activity Intelligence.",
         "parameters": [
           {
             "name": "Authorization",
@@ -528,7 +528,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
-                    "summary",
+                    "activity_intelligence",
                     "risks"
                   ],
                   "properties": {
@@ -537,7 +537,7 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
-                    "summary": {
+                    "activity_intelligence": {
                       "type": "string",
                       "description": "An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level"
                     },
@@ -599,7 +599,7 @@
                 },
                 "example": {
                   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-                  "summary": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
+                  "activity_intelligence": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
                   "risks": [
                     {
                       "id": "sunburn",
@@ -752,7 +752,7 @@
           {
             "name": "exclude",
             "in": "query",
-            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, summary",
+            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, activity_intelligence",
             "required": false,
             "schema": {
               "type": "string"
@@ -769,7 +769,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
-                    "summary",
+                    "activity_intelligence",
                     "forecast"
                   ],
                   "properties": {
@@ -778,7 +778,7 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
-                    "summary": {
+                    "activity_intelligence": {
                       "type": "string",
                       "description": "AI-generated summary of the overall 48-hour forecast"
                     },
@@ -869,7 +869,7 @@
                   "type": "object",
                   "required": [
                     "responseId",
-                    "summary",
+                    "activity_intelligence",
                     "forecast"
                   ],
                   "properties": {
@@ -878,7 +878,7 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
-                    "summary": {
+                    "activity_intelligence": {
                       "type": "string",
                       "description": "AI-generated summary of the overall 48-hour forecast, personalized to your activity and experience level when using the POST method"
                     },
@@ -893,7 +893,7 @@
                 },
                 "example": {
                   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-                  "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
+                  "activity_intelligence": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
                   "forecast": [
                     {
                       "time": "2024-06-27T00:00:00Z",
@@ -1124,10 +1124,7 @@
             "items": {
               "type": "string"
             },
-            "description": "A collection of 1-2 sentence strings with tips and recommendations.",
-            "example": [
-              "..."
-            ]
+            "description": "A collection of 1-2 sentence strings with tips and recommendations."
           },
           "error": {
             "type": "string",
@@ -1184,10 +1181,7 @@
             "items": {
               "type": "string"
             },
-            "description": "A collection of 1-2 sentence strings with tips and recommendations.",
-            "example": [
-              "..."
-            ]
+            "description": "A collection of 1-2 sentence strings with tips and recommendations."
           },
           "error": {
             "type": "string",
@@ -1235,7 +1229,7 @@
                 "environment",
                 "wildlife",
                 "plants",
-                "summary"
+                "activity_intelligence"
               ]
             },
             "description": "A list of sections to exclude from the response"
@@ -1249,13 +1243,13 @@
         "properties": {
           "activity": {
             "type": "string",
-            "description": "The outdoor activity you plan to do (e.g., 'hiking', 'camping', 'skiing'). This helps personalize the risk summary.",
+            "description": "The outdoor activity you plan to do (e.g., 'hiking', 'camping', 'skiing'). This helps personalize the Activity Intelligence.",
             "example": "hiking"
           },
           "age": {
             "type": "integer",
             "minimum": 0,
-            "description": "The age of the person doing the activity. Used to provide age-appropriate risk analysis when summarizing.",
+            "description": "The age of the person doing the activity. Used to provide age-appropriate risk analysis in the Activity Intelligence.",
             "example": 35
           },
           "outdoor_experience": {
@@ -1267,7 +1261,7 @@
           },
           "context": {
             "type": "string",
-            "description": "Any additional context that may be relevant for risk summarization",
+            "description": "Any additional context that may be relevant for Activity Intelligence",
             "example": "First time hiker"
           }
         }

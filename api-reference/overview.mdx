@@ -31,7 +31,7 @@ Get a comprehensive overview of all risks and alerts for a location, combining e
 </ParamField>
 
 <ParamField query="exclude" type="string">
-  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `summary`
+  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `activity_intelligence`
 </ParamField>
 
 ### Example
@@ -76,7 +76,7 @@ curl "http://api.goes.health/v1/risks/overview?location=37.7485,-119.5331&length
       - `environment`: Excludes environmental risks
       - `wildlife`: Excludes wildlife risks
       - `plants`: Excludes plant risks
-      - `summary`: Excludes the AI-generated summary
+      - `activity_intelligence`: Excludes the AI-generated Activity Intelligence
     </ParamField>
   </Expandable>
 </ParamField>
@@ -85,7 +85,7 @@ curl "http://api.goes.health/v1/risks/overview?location=37.7485,-119.5331&length
   Information about who is going outside. This object is extensible - you can add custom fields beyond the standard ones listed below.
   <Expandable title="profile properties">
     <ParamField body="profile.activity" type="string">
-      The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the risk summary.
+      The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the Activity Intelligence.
     </ParamField>
     
     <ParamField body="profile.age" type="integer">
@@ -108,7 +108,7 @@ curl "http://api.goes.health/v1/risks/overview?location=37.7485,-119.5331&length
   A unique identifier for this response. Use this ID if submitting feedback about the response.
 </ResponseField>
 
-<ResponseField name="summary" type="string">
+<ResponseField name="activity_intelligence" type="string">
   An AI-generated summary paragraph that consolidates all risks and alerts, personalized to your activity and experience level.
 </ResponseField>
 
@@ -189,12 +189,12 @@ curl -X POST "http://api.goes.health/v1/risks/overview" \
 
 ## Response
 
-Both the GET and POST methods return the same response format. The POST method provides more personalized content in the summary field.
+Both the GET and POST methods return the same response format. The POST method provides more personalized content in the Activity Intelligence field.
 
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "summary": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
+  "activity_intelligence": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
   "risks": [
     {
       "id": "high-altitude",
