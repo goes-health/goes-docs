@@ -333,7 +333,7 @@
           {
             "name": "options.length",
             "in": "query",
-            "description": "Controls the length of the overview summary text.",
+            "description": "Controls the length of the Activity Intelligence text.",
             "required": false,
             "schema": {
               "type": "string",
@@ -1218,7 +1218,7 @@
               "detailed"
             ],
             "default": "standard",
-            "description": "Controls the length of the overview summary text"
+            "description": "Controls the length of the Activity Intelligence text"
           },
           "exclude": {
             "type": "array",
