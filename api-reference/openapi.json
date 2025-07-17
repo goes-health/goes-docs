@@ -938,9 +938,7 @@
             },
             "description": "A collection of 1-2 sentence strings with tips and recommendations.",
             "example": [
-              "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
-              "Wear a wide-brimmed hat and UV-protective clothing.",
-              "Try to avoid peak UV hours between 10 AM and 4 PM."
+              "..."
             ]
           },
           "error": {
