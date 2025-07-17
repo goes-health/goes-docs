@@ -433,6 +433,22 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+                  "summary": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
+                  "risks": [
+                    {
+                      "id": "sunburn",
+                      "title": "Sunburn",
+                      "source": "environment",
+                      "status": "applicable",
+                      "tips": [
+                        "..."
+                      ]
+                    }
+                  ],
+                  "alerts": []
                 }
               }
             }
@@ -580,6 +596,22 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+                  "summary": "For your Half Dome hike today, be prepared for significant elevation gain and exposed terrain. The combination of high altitude, bear activity, and lightning risk requires careful planning. Start early and monitor weather conditions closely.",
+                  "risks": [
+                    {
+                      "id": "sunburn",
+                      "title": "Sunburn",
+                      "source": "environment",
+                      "status": "applicable",
+                      "tips": [
+                        "..."
+                      ]
+                    }
+                  ],
+                  "alerts": []
                 }
               }
             }
@@ -679,7 +711,7 @@
     },
     "/v1/risks/overview/forecast": {
       "get": {
-        "description": "Returns a 48-hour forecast overview of all risks for a given location.",
+        "description": "Returns a 48-hour forecast overview of all risks for a given location with default settings.",
         "parameters": [
           {
             "name": "Authorization",
@@ -701,11 +733,36 @@
               "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
             },
             "example": "37.7485,-119.5331"
+          },
+          {
+            "name": "length",
+            "in": "query",
+            "description": "Controls the length of the forecast summary text for each hour.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "brief",
+                "standard",
+                "detailed"
+              ],
+              "default": "standard"
+            }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, summary",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "alerts,wildlife"
           }
         ],
         "responses": {
           "200": {
-            "description": "A 48-hour forecast overview of risks.",
+            "description": "A 48-hour forecast overview of risks with default settings.",
             "content": {
               "application/json": {
                 "schema": {
@@ -738,6 +795,126 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Returns a 48-hour forecast overview of all risks for a given location with personalized AI summaries.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Your API key for authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer your_api_key_here"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "location"
+                ],
+                "properties": {
+                  "location": {
+                    "type": "string",
+                    "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
+                    "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$",
+                    "example": "37.7749,-122.4194"
+                  },
+                  "options": {
+                    "$ref": "#/components/schemas/Options"
+                  },
+                  "profile": {
+                    "$ref": "#/components/schemas/Profile"
+                  }
+                }
+              },
+              "example": {
+                "location": "37.7485,-119.5331",
+                "options": {
+                  "length": "standard",
+                  "exclude": []
+                },
+                "profile": {
+                  "activity": "hiking",
+                  "age": 32,
+                  "outdoor_experience": 2,
+                  "context": "Planning a multi-day backpacking trip"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A 48-hour forecast overview of risks with personalized summaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "responseId",
+                    "forecast"
+                  ],
+                  "properties": {
+                    "responseId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "A unique identifier for this response"
+                    },
+                    "forecast": {
+                      "type": "array",
+                      "description": "48 entries (hourly) each containing personalized summaries and risk details.",
+                      "items": {
+                        "$ref": "#/components/schemas/OverviewForecastEntry"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "responseId": "123e4567-e89b-12d3-a456-426614174000",
+                  "forecast": [
+                    {
+                      "time": "2024-06-27T00:00:00Z",
+                      "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
+                      "risks": [
+                        {
+                          "id": "sunburn",
+                          "title": "Sunburn",
+                          "source": "environment",
+                          "status": "applicable",
+                          "tips": [
+                            "..."
+                          ]
+                        }
+                      ],
+                      "alerts": []
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": 400,
+                  "message": "Invalid location format"
                 }
               }
             }
@@ -886,6 +1063,16 @@
         }
       },
       "OverviewRisk": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/EnvironmentalOverviewRisk"
+          },
+          {
+            "$ref": "#/components/schemas/WildlifePlantOverviewRisk"
+          }
+        ]
+      },
+      "EnvironmentalOverviewRisk": {
         "type": "object",
         "required": [
           "id",
@@ -896,23 +1083,75 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The unique identifier for the risk",
+            "description": "The unique identifier for the environmental risk",
             "example": "sunburn"
           },
           "title": {
             "type": "string",
-            "description": "The human-readable title of the risk",
+            "description": "The human-readable title of the environmental risk",
             "example": "Sunburn"
           },
           "source": {
             "type": "string",
             "enum": [
-              "environment",
+              "environment"
+            ],
+            "description": "The source of this risk",
+            "example": "environment"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applicable",
+              "not_applicable",
+              "unavailable",
+              "error"
+            ],
+            "description": "The status of this risk assessment"
+          },
+          "tips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A collection of 1-2 sentence strings with tips and recommendations.",
+            "example": [
+              "..."
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong. Only present when status is 'error'."
+          }
+        }
+      },
+      "WildlifePlantOverviewRisk": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "source",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the wildlife or plant risk",
+            "example": "bears"
+          },
+          "title": {
+            "type": "string",
+            "description": "The human-readable title of the wildlife or plant risk",
+            "example": "Bears"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
               "wildlife",
               "plants"
             ],
             "description": "The source of this risk",
-            "example": "environment"
+            "example": "wildlife"
           },
           "status": {
             "type": "string",
@@ -928,8 +1167,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "The prevalence score for wildlife and plant risks (0: None, 1: Low, 2: Medium, 3: High). Only present when source is 'wildlife' or 'plants' and status is 'applicable'.",
-            "example": 2
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'."
           },
           "tips": {
             "type": "array",

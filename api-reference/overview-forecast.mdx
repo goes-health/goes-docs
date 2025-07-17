@@ -3,9 +3,9 @@ title: 'Get Forecast Overview'
 openapi: 'GET /v1/risks/overview/forecast'
 ---
 
-Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, and plant risks, plus active weather alerts, into a single summarized view.
+Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, and plant risks, plus active weather alerts, into a single summarized view. Available in two formats: a simple cacheable GET request, or an advanced POST request with full personalization options.
 
-## Request
+## Simple Request (GET)
 
 ### Headers
 
@@ -19,7 +19,108 @@ Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, 
   The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
 </ParamField>
 
+<ParamField query="length" type="string">
+  Controls the length of the forecast summary text for each hour. Options:
+  - `brief`: 1-2 sentences focusing on the most critical risks
+  - `standard`: 3-4 sentences with key risks and basic context (default)
+  - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+</ParamField>
+
+<ParamField query="exclude" type="string">
+  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `summary`
+</ParamField>
+
+### Example
+
+```bash
+# Basic request
+curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.5331" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+
+# With options
+curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.5331&length=detailed&exclude=alerts" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Advanced Request (POST)
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Your API key for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="location" type="string" required>
+  The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
+</ParamField>
+
+<ParamField body="options" type="object">
+  Configuration options that control how the response is built.
+  <Expandable title="options properties">
+    <ParamField body="options.length" type="string">
+      Controls the length of the forecast summary text for each hour. Available options:
+      - `brief`: 1-2 sentences focusing on the most critical risks
+      - `standard`: 3-4 sentences with key risks and basic context (default)
+      - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+    </ParamField>
+    
+    <ParamField body="options.exclude" type="array">
+      A list of sections to exclude from the response. Available options:
+      - `alerts`: Excludes national watches, warnings, and advisories
+      - `environment`: Excludes environmental risks
+      - `wildlife`: Excludes wildlife risks
+      - `plants`: Excludes plant risks
+      - `summary`: Excludes the AI-generated summary for each hour
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="profile" type="object">
+  Information about who is going outside. This object is extensible - you can add custom fields beyond the standard ones listed below.
+  <Expandable title="profile properties">
+    <ParamField body="profile.activity" type="string">
+      The outdoor activity you plan to do (e.g., "hiking", "camping", "skiing"). This helps personalize the hourly forecast summaries.
+    </ParamField>
+    
+    <ParamField body="profile.age" type="integer">
+      The age of the person doing the activity. Used to provide age-appropriate risk analysis in the hourly summaries.
+    </ParamField>
+    
+    <ParamField body="profile.outdoor_experience" type="integer">
+      Experience level with outdoor activities, from 0 (beginner) to 4 (expert).
+    </ParamField>
+    
+    <ParamField body="profile.context" type="string">
+      Any additional context that may be relevant for the forecast. This helps provide more personalized recommendations for each hour.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Example
+
+```bash
+curl -X POST "http://api.goes.health/v1/risks/overview/forecast" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "location": "37.7485,-119.5331",
+    "options": {
+      "length": "standard",
+      "exclude": []
+    },
+    "profile": {
+      "activity": "hiking",
+      "age": 32,
+      "outdoor_experience": 2,
+      "context": "Planning a multi-day backpacking trip"
+    }
+  }'
+```
+
 ## Response
+
+Both the GET and POST methods return the same response format. The POST method provides more personalized content in the summary field for each hourly forecast entry.
 
 <ResponseField name="responseId" type="string">
   A unique identifier for this response. Use this ID if submitting feedback about the forecast.
@@ -32,7 +133,7 @@ Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, 
       ISO 8601 timestamp (UTC) representing the forecast hour.
     </ResponseField>
     <ResponseField name="summary" type="string">
-      AI-generated summary paragraph for this hour.
+      AI-generated summary paragraph for this hour, personalized to your activity and experience level when using the POST method.
     </ResponseField>
     <ResponseField name="risks" type="array">
       Consolidated risks for this hour.
@@ -46,20 +147,13 @@ Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, 
   </Expandable>
 </ResponseField>
 
-### Example
-
-```bash
-curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.5331" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
   "forecast": [
     {
       "time": "2024-06-27T00:00:00Z",
-      "summary": "UV levels peak early with high lightning risk in the afternoon...",
+      "summary": "For your backpacking trip, early morning conditions are ideal with low UV and minimal lightning risk. This is the perfect time to break camp and start your hike before temperatures rise.",
       "risks": [
         {
           "id": "sunburn",
