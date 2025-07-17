@@ -134,9 +134,9 @@ curl "http://api.goes.health/v1/risks/overview?location=37.7485,-119.5331&length
     <ResponseField name="score" type="integer">
       For wildlife and plant risks: prevalence score from 0 (None) to 3 (High). Only present when source is 'wildlife' or 'plants' and status is `applicable`.
     </ResponseField>
-    <ResponseField name="tips" type="array">
-      A collection of 1-2 sentence strings with tips and recommendations. Only present when status is `applicable`.
-    </ResponseField>
+      <ResponseField name="tips" type="array">
+    A collection of 1-2 sentence strings with tips and recommendations.
+  </ResponseField>
     <ResponseField name="error" type="string">
       Error message describing what went wrong. Only present when status is `error`.
     </ResponseField>

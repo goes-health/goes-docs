@@ -781,7 +781,7 @@
             "items": {
               "type": "string"
             },
-            "description": "A list of safety tips. Only present when status is 'applicable'."
+            "description": "A list of safety tips."
           },
           "error": {
             "type": "string",
@@ -829,7 +829,7 @@
             "items": {
               "type": "string"
             },
-            "description": "A list of safety tips related to this wildlife risk. Only present when status is 'applicable'."
+            "description": "A list of safety tips related to this wildlife risk."
           },
           "error": {
             "type": "string",
@@ -877,7 +877,7 @@
             "items": {
               "type": "string"
             },
-            "description": "A list of safety tips related to this plant risk. Only present when status is 'applicable'."
+            "description": "A list of safety tips related to this plant risk."
           },
           "error": {
             "type": "string",
@@ -936,7 +936,7 @@
             "items": {
               "type": "string"
             },
-            "description": "A collection of 1-2 sentence strings with tips and recommendations. Only present when status is 'applicable'.",
+            "description": "A collection of 1-2 sentence strings with tips and recommendations.",
             "example": [
               "Apply SPF 30+ sunscreen. Reapply every 2 hours or more frequently if sweating.",
               "Wear a wide-brimmed hat and UV-protective clothing.",
