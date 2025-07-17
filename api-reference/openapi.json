@@ -331,7 +331,7 @@
             "example": "37.7485,-119.5331"
           },
           {
-            "name": "length",
+            "name": "options.length",
             "in": "query",
             "description": "Controls the length of the overview summary text.",
             "required": false,
@@ -346,7 +346,7 @@
             }
           },
           {
-            "name": "exclude",
+            "name": "options.exclude",
             "in": "query",
             "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, activity_intelligence",
             "required": false,
@@ -735,7 +735,7 @@
             "example": "37.7485,-119.5331"
           },
           {
-            "name": "length",
+            "name": "options.length",
             "in": "query",
             "description": "Controls the length of the forecast summary text for each hour.",
             "required": false,
@@ -750,7 +750,7 @@
             }
           },
           {
-            "name": "exclude",
+            "name": "options.exclude",
             "in": "query",
             "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, activity_intelligence",
             "required": false,

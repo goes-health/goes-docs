@@ -23,15 +23,20 @@ Get a 48-hour, hour-by-hour forecast that consolidates environmental, wildlife, 
   The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
 </ParamField>
 
-<ParamField query="length" type="string">
-  Controls the length of the forecast summary text for each hour. Options:
-  - `brief`: 1-2 sentences focusing on the most critical risks
-  - `standard`: 3-4 sentences with key risks and basic context (default)
-  - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
-</ParamField>
-
-<ParamField query="exclude" type="string">
-  Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `activity_intelligence`
+<ParamField query="options" type="object">
+  Configuration options that control how the response is built.
+  <Expandable title="options properties">
+    <ParamField query="options.length" type="string">
+      Controls the length of the forecast summary text for each hour. Available options:
+      - `brief`: 1-2 sentences focusing on the most critical risks
+      - `standard`: 3-4 sentences with key risks and basic context (default)
+      - `detailed`: 5-7 sentences with comprehensive risk analysis and detailed recommendations
+    </ParamField>
+    
+    <ParamField query="options.exclude" type="string">
+      Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `activity_intelligence`
+    </ParamField>
+  </Expandable>
 </ParamField>
 
 ### Example
@@ -42,7 +47,7 @@ curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.53
   -H "Authorization: Bearer YOUR_API_KEY"
 
 # With options
-curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.5331&length=detailed&exclude=alerts" \
+curl "http://api.goes.health/v1/risks/overview/forecast?location=37.7485,-119.5331&options.length=detailed&options.exclude=alerts" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
