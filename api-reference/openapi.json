@@ -20,16 +20,6 @@
         "security": [{"HTTPBearer": []}],
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Your API key for authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer your_api_key_here"
-          },
-          {
             "name": "location",
             "in": "query",
             "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
@@ -639,16 +629,6 @@
         "description": "Returns a 48-hour forecast of environmental risks for a given location.",
         "security": [{"HTTPBearer": []}],
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Your API key for authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer your_api_key_here"
-          },
           {
             "name": "location",
             "in": "query",
