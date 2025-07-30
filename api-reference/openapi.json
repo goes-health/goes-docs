@@ -1330,7 +1330,8 @@
     "securitySchemes": {
       "HTTPBearer": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "API Key"
       }
     }
   }
