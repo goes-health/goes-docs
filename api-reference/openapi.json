@@ -1331,7 +1331,8 @@
       "HTTPBearer": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "API Key"
+        "bearerFormat": "API Key",
+        "description": "Enter your API key with 'Bearer ' prefix (e.g., 'Bearer goes_xyz123')"
       }
     }
   }
