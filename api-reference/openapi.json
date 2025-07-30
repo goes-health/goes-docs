@@ -17,6 +17,7 @@
     "/v1/risks/environmental": {
       "get": {
         "description": "Returns a list of environmental health risks based on location and selected IDs.",
+        "security": [{"HTTPBearer": []}],
         "parameters": [
           {
             "name": "Authorization",
@@ -636,6 +637,7 @@
     "/v1/risks/environmental/forecast": {
       "get": {
         "description": "Returns a 48-hour forecast of environmental risks for a given location.",
+        "security": [{"HTTPBearer": []}],
         "parameters": [
           {
             "name": "Authorization",
@@ -1341,6 +1343,14 @@
             }
           }
         }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
