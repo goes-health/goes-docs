@@ -80,16 +80,6 @@
         "description": "Returns a list of wildlife-related risks based on location and selected IDs.",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Your API key for authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer your_api_key_here"
-          },
-          {
             "name": "location",
             "in": "query",
             "description": "The latitude and longitude, formatted as `{latitude},{longitude}`.",
@@ -149,16 +139,6 @@
       "get": {
         "description": "Returns a list of plant-related risks based on location and selected IDs.",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Your API key for authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer your_api_key_here"
-          },
           {
             "name": "location",
             "in": "query",
@@ -300,16 +280,6 @@
       "get": {
         "description": "Returns an overview of all risks for a given location with default settings.",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Your API key for authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer your_api_key_here"
-          },
           {
             "name": "location",
             "in": "query",
@@ -695,16 +665,6 @@
       "get": {
         "description": "Returns a 48-hour forecast overview of all risks for a given location with default settings.",
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Your API key for authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer your_api_key_here"
-          },
           {
             "name": "location",
             "in": "query",
