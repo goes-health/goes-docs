@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://api.goes.health"
+      "url": "https://api.goes.health"
     }
   ],
   "paths": {
