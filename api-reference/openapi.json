@@ -17,7 +17,11 @@
     "/v1/risks/environmental": {
       "get": {
         "description": "Returns a list of environmental health risks based on location and selected IDs.",
-        "security": [{"HTTPBearer": []}],
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "location",
@@ -597,7 +601,11 @@
     "/v1/risks/environmental/forecast": {
       "get": {
         "description": "Returns a 48-hour forecast of environmental risks for a given location.",
-        "security": [{"HTTPBearer": []}],
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "location",
@@ -1284,15 +1292,13 @@
           }
         }
       }
-    }
-  },
-  "components": {
+    },
     "securitySchemes": {
       "HTTPBearer": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "API Key",
-        "description": "Enter your API key with 'Bearer ' prefix (e.g., 'Bearer goes_xyz123')"
+        "description": "Enter your API key"
       }
     }
   }
