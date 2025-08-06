@@ -926,17 +926,17 @@
             "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
             "example": 2
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "A list of safety tips."
-          },
-          "summary": {
-            "type": "string",
-            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
-            "example": "<string>"
           },
           "error": {
             "type": "string",
@@ -979,17 +979,17 @@
             "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
             "example": 2
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "A list of safety tips related to this wildlife risk."
-          },
-          "summary": {
-            "type": "string",
-            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
-            "example": "<string>"
           },
           "error": {
             "type": "string",
@@ -1032,17 +1032,17 @@
             "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
             "example": 2
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "A list of safety tips related to this plant risk."
-          },
-          "summary": {
-            "type": "string",
-            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
-            "example": "<string>"
           },
           "error": {
             "type": "string",
@@ -1104,17 +1104,17 @@
             "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
             "example": 2
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "A collection of 1-2 sentence strings with tips and recommendations."
-          },
-          "summary": {
-            "type": "string",
-            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
-            "example": "<string>"
           },
           "error": {
             "type": "string",
@@ -1166,17 +1166,17 @@
             "maximum": 3,
             "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'."
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "A collection of 1-2 sentence strings with tips and recommendations."
-          },
-          "summary": {
-            "type": "string",
-            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
-            "example": "<string>"
           },
           "error": {
             "type": "string",
