@@ -33,7 +33,7 @@ This endpoint allows you to check for various outdoor health risks based on a sp
 
 ## Response
 
-The response is a JSON object containing a `risks` array. Each object in the array represents a specific risk and includes an `id`, a `title`, and a list of `tips`.
+The response is a JSON object containing a `risks` array. Each object in the array represents a specific risk and includes an `id`, a `title`, a `score`, and a list of `tips`.
 
 <ResponseField name="responseId" type="string">
   A unique identifier for this response. Use this ID if submitting feedback about the response.
@@ -54,6 +54,15 @@ The response is a JSON object containing a `risks` array. Each object in the arr
       - `not_applicable`: Risk is not present or relevant for this location  
       - `unavailable`: Risk data is unavailable for this location
       - `error`: An error occurred while assessing this risk
+    </ResponseField>
+    <ResponseField name="score" type="number">
+      A number from 0-3 representing the risk level:
+      - 0: None
+      - 1: Low
+      - 2: Medium
+      - 3: High
+      
+      Only present when status is `applicable`.
     </ResponseField>
     <ResponseField name="tips" type="array">
       A collection of 1-2 sentence strings with tips and recommendations.
@@ -84,6 +93,7 @@ curl "http://api.goes.health/v1/risks/environmental?ids=sunburn,heat-illness,fro
       "id": "sunburn",
       "title": "Sunburn",
       "status": "applicable",
+      "score": 2,
       "tips": [
         "..."
       ]
@@ -92,6 +102,7 @@ curl "http://api.goes.health/v1/risks/environmental?ids=sunburn,heat-illness,fro
       "id": "heat-illness",
       "title": "Heat Illness",
       "status": "applicable",
+      "score": 3,
       "tips": [
         "..."
       ]

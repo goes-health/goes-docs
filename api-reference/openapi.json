@@ -408,6 +408,7 @@
                       "title": "Sunburn",
                       "source": "environment",
                       "status": "applicable",
+                      "score": 2,
                       "tips": [
                         "..."
                       ]
@@ -571,6 +572,7 @@
                       "title": "Sunburn",
                       "source": "environment",
                       "status": "applicable",
+                      "score": 2,
                       "tips": [
                         "..."
                       ]
@@ -853,6 +855,7 @@
                           "title": "Sunburn",
                           "source": "environment",
                           "status": "applicable",
+                          "score": 2,
                           "tips": [
                             "..."
                           ]
@@ -912,6 +915,13 @@
               "error"
             ],
             "description": "The status of this risk assessment"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "example": 2
           },
           "tips": {
             "type": "array",
