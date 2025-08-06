@@ -40,6 +40,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "tips,summary"
           }
         ],
         "responses": {
@@ -100,6 +110,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "tips,summary"
           }
         ],
         "responses": {
@@ -160,6 +180,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "tips,summary"
           }
         ],
         "responses": {
@@ -313,7 +343,7 @@
           {
             "name": "options.exclude",
             "in": "query",
-            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, activity_intelligence",
+            "description": "Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `activity_intelligence`",
             "required": false,
             "schema": {
               "type": "string"
@@ -629,6 +659,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "exclude",
+            "in": "query",
+            "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "tips,summary"
           }
         ],
         "responses": {
@@ -706,7 +746,7 @@
           {
             "name": "options.exclude",
             "in": "query",
-            "description": "Comma-separated list of sections to exclude from the response. Options: alerts, environment, wildlife, plants, activity_intelligence",
+            "description": "Comma-separated list of sections to exclude from the response. Options: `alerts`, `environment`, `wildlife`, `plants`, `activity_intelligence`",
             "required": false,
             "schema": {
               "type": "string"
