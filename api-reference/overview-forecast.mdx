@@ -168,14 +168,12 @@ Both the GET and POST methods return the same response format. The POST method p
           A number from 0-3 representing the risk level or prevalence:
           - For environmental risks: risk level from 0 (None) to 3 (High)
           - For wildlife and plant risks: prevalence score from 0 (None) to 3 (High)
-          
-          Only present when status is `applicable`.
         </ResponseField>
         <ResponseField name="tips" type="array">
           A collection of 1-2 sentence strings with tips and recommendations.
         </ResponseField>
         <ResponseField name="summary" type="string">
-          A 1-2 sentence summary of the tips and key information. Only present when status is `applicable`.
+          A 1-2 sentence summary of the tips and key information.
         </ResponseField>
         <ResponseField name="error" type="string">
           Error message describing what went wrong. Only present when status is `error`.

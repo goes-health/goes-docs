@@ -963,7 +963,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High).",
             "example": 2
           },
           "summary": {
@@ -1016,7 +1016,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High).",
             "example": 2
           },
           "summary": {
@@ -1069,7 +1069,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High).",
             "example": 2
           },
           "summary": {
@@ -1141,7 +1141,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High).",
             "example": 2
           },
           "summary": {
@@ -1204,7 +1204,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 3,
-            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'."
+            "description": "The prevalence score (0: None, 1: Low, 2: Medium, 3: High)."
           },
           "summary": {
             "type": "string",
