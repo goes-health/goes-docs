@@ -67,6 +67,9 @@ The response is a JSON object containing a `risks` array. Each object in the arr
     <ResponseField name="tips" type="array">
       A collection of 1-2 sentence strings with tips and recommendations.
     </ResponseField>
+    <ResponseField name="summary" type="string">
+      A 1-2 sentence summary of the tips and key information. Only present when status is `applicable`.
+    </ResponseField>
     <ResponseField name="error" type="string">
       Error message describing what went wrong. Only present when status is `error`.
     </ResponseField>
@@ -94,6 +97,7 @@ curl "http://api.goes.health/v1/risks/environmental?ids=sunburn,heat-illness,fro
       "title": "Sunburn",
       "status": "applicable",
       "score": 2,
+      "summary": "...",
       "tips": [
         "..."
       ]
@@ -103,6 +107,7 @@ curl "http://api.goes.health/v1/risks/environmental?ids=sunburn,heat-illness,fro
       "title": "Heat Illness",
       "status": "applicable",
       "score": 3,
+      "summary": "...",
       "tips": [
         "..."
       ]

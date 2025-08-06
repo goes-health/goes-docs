@@ -174,6 +174,9 @@ Both the GET and POST methods return the same response format. The POST method p
         <ResponseField name="tips" type="array">
           A collection of 1-2 sentence strings with tips and recommendations.
         </ResponseField>
+        <ResponseField name="summary" type="string">
+          A 1-2 sentence summary of the tips and key information. Only present when status is `applicable`.
+        </ResponseField>
         <ResponseField name="error" type="string">
           Error message describing what went wrong. Only present when status is `error`.
         </ResponseField>
@@ -199,6 +202,7 @@ Both the GET and POST methods return the same response format. The POST method p
           "source": "environment",
           "status": "applicable",
           "score": 2,
+          "summary": "...",
           "tips": [
             "..."
           ]

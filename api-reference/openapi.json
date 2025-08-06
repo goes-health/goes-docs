@@ -409,8 +409,9 @@
                       "source": "environment",
                       "status": "applicable",
                       "score": 2,
+                      "summary": "<string>",
                       "tips": [
-                        "..."
+                        "<string>"
                       ]
                     }
                   ],
@@ -573,8 +574,9 @@
                       "source": "environment",
                       "status": "applicable",
                       "score": 2,
+                      "summary": "<string>",
                       "tips": [
-                        "..."
+                        "<string>"
                       ]
                     }
                   ],
@@ -856,8 +858,9 @@
                           "source": "environment",
                           "status": "applicable",
                           "score": 2,
+                          "summary": "<string>",
                           "tips": [
-                            "..."
+                            "<string>"
                           ]
                         }
                       ],
@@ -930,6 +933,11 @@
             },
             "description": "A list of safety tips."
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "error": {
             "type": "string",
             "description": "Error message describing what went wrong. Only present when status is 'error'."
@@ -978,6 +986,11 @@
             },
             "description": "A list of safety tips related to this wildlife risk."
           },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
+          },
           "error": {
             "type": "string",
             "description": "Error message describing what went wrong. Only present when status is 'error'."
@@ -1025,6 +1038,11 @@
               "type": "string"
             },
             "description": "A list of safety tips related to this plant risk."
+          },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
           },
           "error": {
             "type": "string",
@@ -1079,12 +1097,24 @@
             ],
             "description": "The status of this risk assessment"
           },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "description": "A number from 0-3 representing the risk level (0: None, 1: Low, 2: Medium, 3: High). Only present when status is 'applicable'.",
+            "example": 2
+          },
           "tips": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "A collection of 1-2 sentence strings with tips and recommendations."
+          },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
           },
           "error": {
             "type": "string",
@@ -1142,6 +1172,11 @@
               "type": "string"
             },
             "description": "A collection of 1-2 sentence strings with tips and recommendations."
+          },
+          "summary": {
+            "type": "string",
+            "description": "A 1-2 sentence summary of the tips and key information. Only present when status is 'applicable'.",
+            "example": "<string>"
           },
           "error": {
             "type": "string",
