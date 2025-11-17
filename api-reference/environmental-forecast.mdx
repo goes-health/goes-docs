@@ -3,7 +3,7 @@ title: 'Get Environmental Forecast'
 openapi: 'GET /v1/risks/environmental/forecast'
 ---
 
-Get a 48-hour, hour-by-hour forecast of environmental risks for a location.
+Get 48-hour hourly and 8-day daily forecasts of environmental risks for a location.
 
 ## Request
 
@@ -19,18 +19,14 @@ Get a 48-hour, hour-by-hour forecast of environmental risks for a location.
   The latitude and longitude for the location to check, formatted as `{latitude},{longitude}`.
 </ParamField>
 
-<ParamField query="ids" type="string">
-  A comma-separated list of risk IDs to include. If omitted, all environmental risks are returned.
-</ParamField>
-
 ## Response
 
 <ResponseField name="responseId" type="string">
   A unique identifier for this response. Use this ID if submitting feedback about the forecast.
 </ResponseField>
 
-<ResponseField name="forecast" type="array">
-  An array of 48 hourly forecast entries.
+<ResponseField name="hourly" type="array">
+  48 hourly entries, each containing the set of environmental risks for that hour.
   <Expandable title="child attributes">
     <ResponseField name="time" type="string">
       ISO 8601 timestamp (UTC) representing the forecast hour.
@@ -47,7 +43,50 @@ Get a 48-hour, hour-by-hour forecast of environmental risks for a location.
         <ResponseField name="status" type="enum">
           The status of this risk assessment:
           - `applicable`: Risk is present and relevant for this location
-          - `not_applicable`: Risk is not present or relevant for this location  
+          - `not_applicable`: Risk is not present or relevant for this location
+          - `unavailable`: Risk data is unavailable for this location
+          - `error`: An error occurred while assessing this risk
+        </ResponseField>
+        <ResponseField name="score" type="number">
+          A number from 0-3 representing the risk level:
+          - 0: None
+          - 1: Low
+          - 2: Medium
+          - 3: High
+        </ResponseField>
+        <ResponseField name="tips" type="array">
+          A collection of 1-2 sentence strings with tips and recommendations.
+        </ResponseField>
+        <ResponseField name="summary" type="string">
+          A 1-2 sentence summary of the tips and key information.
+        </ResponseField>
+        <ResponseField name="error" type="string">
+          Error message describing what went wrong. Only present when status is `error`.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="daily" type="array">
+  32 daily entries over 8 days. 4 timestamps per day: morning (06:00), noon (12:00), evening (18:00), midnight (00:00), each containing the set of environmental risks.
+  <Expandable title="child attributes">
+    <ResponseField name="time" type="string">
+      ISO 8601 timestamp (UTC) representing the forecast time.
+    </ResponseField>
+    <ResponseField name="risks" type="array">
+      The environmental risks predicted for this time.
+      <Expandable title="child attributes">
+        <ResponseField name="id" type="string">
+          The unique identifier for the environmental risk.
+        </ResponseField>
+        <ResponseField name="title" type="string">
+          The human-readable title of the risk.
+        </ResponseField>
+        <ResponseField name="status" type="enum">
+          The status of this risk assessment:
+          - `applicable`: Risk is present and relevant for this location
+          - `not_applicable`: Risk is not present or relevant for this location
           - `unavailable`: Risk data is unavailable for this location
           - `error`: An error occurred while assessing this risk
         </ResponseField>
@@ -82,9 +121,26 @@ curl "http://api.goes.health/v1/risks/environmental/forecast?location=34.0522,-1
 ```json
 {
   "responseId": "123e4567-e89b-12d3-a456-426614174000",
-  "forecast": [
+  "hourly": [
     {
       "time": "2024-06-27T00:00:00Z",
+      "risks": [
+        {
+          "id": "sunburn",
+          "title": "Sunburn",
+          "status": "applicable",
+          "score": 2,
+          "summary": "...",
+          "tips": [
+            "..."
+          ]
+        }
+      ]
+    }
+  ],
+  "daily": [
+    {
+      "time": "2024-06-27T06:00:00Z",
       "risks": [
         {
           "id": "sunburn",

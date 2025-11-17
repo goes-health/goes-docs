@@ -42,7 +42,7 @@
             }
           },
           {
-            "name": "exclude",
+            "name": "exclude_risk_fields",
             "in": "query",
             "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
             "required": false,
@@ -112,7 +112,7 @@
             }
           },
           {
-            "name": "exclude",
+            "name": "exclude_risk_fields",
             "in": "query",
             "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
             "required": false,
@@ -182,7 +182,7 @@
             }
           },
           {
-            "name": "exclude",
+            "name": "exclude_risk_fields",
             "in": "query",
             "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
             "required": false,
@@ -634,7 +634,7 @@
     },
     "/v1/risks/environmental/forecast": {
       "get": {
-        "description": "Returns a 48-hour forecast of environmental risks for a given location.",
+        "description": "Precision hourly and extended daily forecast of environmental risks for a location.",
         "security": [
           {
             "HTTPBearer": []
@@ -663,6 +663,16 @@
           {
             "name": "exclude",
             "in": "query",
+            "description": "Comma-separated list of forecast types to exclude from the response. Options: `hourly`, `daily`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "daily"
+          },
+          {
+            "name": "exclude_risk_fields",
+            "in": "query",
             "description": "Comma-separated list of sections to exclude from the response. Options: `tips`, `summary`, `score`",
             "required": false,
             "schema": {
@@ -673,14 +683,13 @@
         ],
         "responses": {
           "200": {
-            "description": "A 48-hour forecast of environmental risks.",
+            "description": "A forecast of environmental risks with hourly and/or daily data.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "responseId",
-                    "forecast"
+                    "responseId"
                   ],
                   "properties": {
                     "responseId": {
@@ -688,9 +697,16 @@
                       "format": "uuid",
                       "description": "A unique identifier for this response"
                     },
-                    "forecast": {
+                    "hourly": {
                       "type": "array",
-                      "description": "48 entries (hourly) each containing the set of environmental risks for that hour.",
+                      "description": "48 hourly entries, each containing the set of environmental risks for that hour.",
+                      "items": {
+                        "$ref": "#/components/schemas/RiskForecastEntry"
+                      }
+                    },
+                    "daily": {
+                      "type": "array",
+                      "description": "32 daily entries over 8 days. 4 timestamps per day: morning (06:00), noon (12:00), evening (18:00), midnight (00:00), each containing the set of environmental risks.",
                       "items": {
                         "$ref": "#/components/schemas/RiskForecastEntry"
                       }
